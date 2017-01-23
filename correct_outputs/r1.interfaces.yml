@@ -10,10 +10,5 @@
 
 - intf: Loopback0
   ipaddr: 1.1.1.1
-  proto: up
-  status: up
-
-- intf: Loopback88
-  ipaddr: 88.88.88.88
-  proto: up
-  status: up
+  proto: down
+  status: administratively down

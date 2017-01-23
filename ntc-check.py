@@ -6,26 +6,57 @@ import re
 from pprint import pprint
 from collections import OrderedDict
 
-class ntc_check():
 
-    # def __init__(self,correct_path,output_path,host_file,correct_filename,output_filename,sanitise_parameters):
-    #     self.correct_path = correct_path
-    #     self.output_path = output_path
-    #     self.host_file = host_file
-    #     self.correct_filename = correct_filename
-    #     self.output_filename = output_filename
-    #     self.sanitise_parameters = sanitise_parameters
+class ntc_check(object):
 
-    def generate_host_list(self, correct_path, host_file):
+    def __init__(self, report_path, correct_path, output_path, host_file, correct_filename, output_filename, compare, sanitise_parameters=[], debug = ""):
+        self.report_path = report_path
+        self.correct_path = correct_path
+        self.output_path = output_path
+        self.host_file = host_file
+        self.correct_filename = correct_filename
+        self.output_filename = output_filename
+        self.compare = compare
+        self.sanitise_parameters = sanitise_parameters
+        self.debug = ""
+        
+        # Report variables
+        self.compare_correct_dict = {}
+        self.compare_mismatch_dict = {}
+        self.compare_notfound_dict = {}
+        
+        self.compare_correct_ECMP_dict = {}
+        self.compare_mismatch_ECMP_dict = {}
+        self.compare_notfound_ECMP_dict = {}
+        
+        self.compare_correct_unique_dict = {}
+        self.compare_mismatch_unique_dict = {}
+        self.compare_notfound_unique_dict = {}
+
+    def generate_host_list(self):
         # Generate list of hosts to check
-        host_list = yaml.load(open(correct_path + '/' + host_file, "r"))
-        return sorted(host_list)
+        hosts = yaml.load(open(self.correct_path + '/' + host_file, "r"))
+        self.host_list = sorted(hosts)
+        return sorted(hosts)
 
-    def generate_show_list(self, path, filename, sanitise_parameters=[]):
+    def generate_show_list(self, category):
         # Build Dictionary with show outputs
-        # List all files in show_outputs subdirectory
-
-        file_list_raw = os.listdir(path)
+        # Determine if method is being called for the correct attributes or output attributes
+        # List all files in correct path and set method variables
+        # Only use sanitise_parameters on output (exception handling)
+        if category == 'correct':
+            file_list_raw = os.listdir(correct_path)
+            filename = self.correct_filename
+            path = self.correct_path
+            local_sanitise_parameters = None
+        elif category == 'output':
+            file_list_raw = os.listdir(output_path)
+            filename = self.output_filename
+            path = self.output_path
+            local_sanitise_parameters = self.sanitise_parameters
+        else:
+            print('category argument must be "correct" or "output"')
+            return None
 
         # Instantiate dictionary containing show values
         host_show_dict = {}
@@ -39,23 +70,43 @@ class ntc_check():
             if file.endswith(filename):
                 file_name = re.match(r'(.*).'+ filename, file)
                 file_json = yaml.load(open(path + '/' + file, "r"))
-                # Sanitise unwanted parameters - ONLY CALL ON OUTPUTS NOT ON CORRECT
+                # Sanitise unwanted parameters with exception handling
                 length = len(file_json)
-                for j in range(length):
-                    for s in sanitise_parameters:
-                        del file_json[j][s]
+                if local_sanitise_parameters is not None:
+                    for j in range(length):
+                        for s in local_sanitise_parameters:
+                            del file_json[j][s]
 
                 file_var = file_name.group(1)
                 host_show_dict[file_var] = file_json
 
-        # print ("dictionary with SHOW values:")
-        # print(host_show_dict)
-        return host_show_dict
+        if category == 'correct':
+            self.correct_dict = host_show_dict
+            return host_show_dict
+        elif category == 'output':
+            self.output_dict = host_show_dict
+            return host_show_dict
 
-    def generate_routes_list(self, path, filename, sanitise_parameters=[]):
+
+    def generate_routes_list(self, category):
         # Custom generation module as to compare routes need to combine subnet/mask keypairs into single keypair
         # Build Dictionary with show outputs
-        # List all files in show_outputs subdirectory
+        # Determine if method is being called for the correct attributes or output attributes
+        # List all files in correct path and set method variables
+        # Only use sanitise_parameters on output (exception handling)
+        if category == 'correct':
+            file_list_raw = os.listdir(correct_path)
+            filename = self.correct_filename
+            path = self.correct_path
+            local_sanitise_parameters = None
+        elif category == 'output':
+            file_list_raw = os.listdir(output_path)
+            filename = self.output_filename
+            path = self.output_path
+            local_sanitise_parameters = self.sanitise_parameters
+        else:
+            print('category argument must be "correct" or "output"')
+            return None
 
         file_list_raw = os.listdir(path)
 
@@ -81,35 +132,44 @@ class ntc_check():
                     del file_json[j]["network"]
                     del file_json[j]["mask"]
                     file_json[j]["network"] = x + y
-                    for s in sanitise_parameters:
-                        del file_json[j][s]
+                    if local_sanitise_parameters is not None:
+                        for s in local_sanitise_parameters:
+                            del file_json[j][s]
                 file_var = file_name.group(1)
                 host_show_dict[file_var] = file_json
 
-        # print ("dictionary with SHOW values:")
-        # print(host_show_dict)
-        return host_show_dict
+        if category == 'correct':
+            self.correct_dict = host_show_dict
+            return host_show_dict
+        elif category == 'output':
+            self.output_dict = host_show_dict
+            return host_show_dict
 
-    def compare_generic(self, hosts, correct, show, compare):
-
+    def compare_generic(self):
+        path = self.report_path
         # Iterate through devices and pick out the dictionary for the device in both the list of correct values and list of show values
         pprint("=========================================================")
-        pprint("CHECKING " + compare)
-        for device in hosts:
-
-            correct_device = correct.get(device)
-            show_device = show.get(device)
+        pprint("CHECKING " + self.compare)
+        for device in self.host_list:
+            host_compare_correct_list = []
+            host_compare_mismatch_list = []
+            host_compare_notfound_list = []
+            correct_device = self.correct_dict.get(device)
+            output_device = self.output_dict.get(device)
 
             pprint ("=================")
             pprint ("DEVICE: "+ device)
 
             # Iterate through correct list and find key/value
             for icorrect in correct_device:
-                a = icorrect.get(compare)
+                a = icorrect.get(self.compare)
+                # marker
                 occur = 0
                 # Iterate through show list and find matching key/value
-                for ishow in show_device:
-                    if ishow[compare] == a:
+                for ishow in output_device:
+
+
+                    if ishow[self.compare] == a:
                         # Compare dictionaries and return results
                         pprint ("Comparing " + a + " - first line is desired, second line is actual output for comparison")
                         pprint(icorrect,width=300)
@@ -118,22 +178,51 @@ class ntc_check():
                             pprint("OK for " + device + " interface "+ a)
                             pprint ("---")
                             occur = occur + 1
+                            host_compare_correct_list.append(icorrect.copy())
                         else:
-                            pprint("MISMATCH on " + device + " " + compare + " " + a)
+                            pprint("MISMATCH on " + device + " " + self.compare + " " + a)
                             pprint ("---")
                             occur = occur + 1
+                            host_compare_mismatch_list.append(ishow.copy())
+                # marker not found - correct line not found in all output lines
                 if occur == 0:
-                    print ("MISMATCH - " + compare + " not found - " + a)
+                    print ("NOT FOUND - " + self.compare + " not found - " + a)
                     pprint("---")
+                    host_compare_notfound_list.append(icorrect.copy())
 
-    def compare_routes(self, hosts, correct_routes, show_routes):
+            # After every device, create new key:pair in output dictionary
+            self.compare_correct_dict[device] = host_compare_correct_list
+            self.compare_mismatch_dict[device] = host_compare_mismatch_list
+            self.compare_notfound_dict[device] = host_compare_notfound_list
+
+        # At end, write reports
+        correct_report_name = os.path.join(self.report_path, self.compare + "." + "correct.txt")
+        mismatch_report_name = os.path.join(self.report_path, self.compare + "." + "mismatch.txt")
+        notfound_report_name = os.path.join(self.report_path, self.compare + "." + "notfound.txt")
+        with open(correct_report_name, "w") as correct_report:
+            correct_report.write(str(self.compare_correct_dict))
+        with open(mismatch_report_name, "w") as mismatch_report:
+            mismatch_report.write(str(self.compare_mismatch_dict))
+        with open(notfound_report_name, "w") as notfound_report:
+            notfound_report.write(str(self.compare_notfound_dict))
+        print("Results written to " + report_path + " for comparison on " + self.compare)
+        pprint("=========================================================")
+
+    def compare_routes(self):
         # Custom comparison module for routes as logic is different due to need to compare ECMP vs unique routes
         # Iterate through devices and pick out the dictionary for the device in both the list of correct values and list of show values
+        path = self.report_path
         pprint("=========================================================")
         print ("CHECKING ROUTES")
-        for device in hosts:
-            correct_device = correct_routes.get(device)
-            show_device = show_routes.get(device)
+        for device in self.host_list:
+            host_compare_correct_ECMP_list = []
+            host_compare_mismatch_ECMP_list = []
+            host_compare_notfound_ECMP_list = []
+            host_compare_correct_unique_list = []
+            host_compare_mismatch_unique_list = []
+            host_compare_notfound_unique_list = []
+            correct_device = self.correct_dict.get(device)
+            output_device = self.output_dict.get(device)
 
             # Generate separate list of correct ECMP routes
             correct_device_ECMP = []
@@ -162,11 +251,11 @@ class ntc_check():
 
             # Generate separate list of show ECMP routes
             show_device_ECMP = []
-            for ishow_ECMP in show_device:
+            for ishow_ECMP in output_device:
                 network3 = ishow_ECMP.get("network")
                 occur2 = 0
 
-                for y in show_device:
+                for y in output_device:
                     netdupe2 = y.get("network")
                     if netdupe2 == network3:
                         occur2 = occur2 + 1
@@ -176,7 +265,7 @@ class ntc_check():
 
             # Generate separate list of show unique routes
             show_device_unique = []
-            for ishow_unique in show_device:
+            for ishow_unique in output_device:
                 network4 = ishow_unique.get("network")
                 if any(d['network'] == network4 for d in show_device_ECMP):
                     pass
@@ -196,10 +285,13 @@ class ntc_check():
                     if b["network"] == route:
                         if a == b:
                             print("Found matching ECMP route - " + str(a))
+                            host_compare_correct_ECMP_list.append(a.copy())
                             occur3 = occur3 + 1
                 ### If EXACT ECMP entry not found iterate again and report all mismatching attributes
+                # current logic does not manage to differ between ECMP mismatch or ECMP not found
                 if occur3 == 0:
                     print ("MISMATCH - ECMP entry with correct attributes not found - " + str(a))
+                    host_compare_mismatch_ECMP_list.append(a.copy())
 
                 # Iterate through and find matching unique routes
             print ("DEVICE: " + device + " unique routes")
@@ -211,49 +303,93 @@ class ntc_check():
                     if d["network"] == route2:
                         if c == d:
                             print("Found matching unique route - " + str(c))
+                            host_compare_correct_unique_list.append(d.copy())
                             occur4 = occur4 + 1
                         else:
                             print("MISMATCH - found unique route with incorrect attributes - " + str(d))
                             print("COMPARISON correct route has following attributes       - " + str(c))
+                            host_compare_mismatch_unique_list.append(d.copy())
                             occur4 = occur4 + 1
 
                 if occur4 == 0:
-                    print ("MISMATCH - unique entry not found - " + str(c))
+                    print ("NOT FOUND - unique entry not found - " + str(c))
+                    host_compare_notfound_unique_list.append(c.copy())
+                    
+            # After every device, create new key:pair in output dictionary
+            self.compare_correct_ECMP_dict[device] = host_compare_correct_ECMP_list
+            self.compare_mismatch_ECMP_dict[device] = host_compare_mismatch_ECMP_list
+    
+            self.compare_correct_unique_dict[device] = host_compare_correct_unique_list
+            self.compare_mismatch_unique_dict[device] = host_compare_mismatch_unique_list
+            self.compare_notfound_unique_dict[device] = host_compare_notfound_unique_list
+
+        # At end, write reports
+        correct_ECMP_report_name = os.path.join(self.report_path, "routes.ECMP.correct.txt")
+        mismatch_ECMP_report_name = os.path.join(self.report_path, "routes.ECMP.mismatch.txt")
+
+        correct_unique_report_name = os.path.join(self.report_path, "routes.unique.correct.txt")
+        mismatch_unique_report_name = os.path.join(self.report_path, "routes.unique.mismatch.txt")
+        notfound_unique_report_name = os.path.join(self.report_path, "routes.unique.notfound.txt")
 
 
-### example variables
-correct_path = "./correct_outputs"
-output_path = "./show_outputs"
-host_file = "hosts.yml"
-correct_interfaces_filename = "interfaces.yml"
-output__interfaces_filename = "show.ip.interface.brief.output.txt"
-comparison_interfaces = "intf"
+        with open(correct_ECMP_report_name, "w") as correct_ECMP_report:
+            correct_ECMP_report.write(str(self.compare_correct_ECMP_dict))
+        with open(mismatch_ECMP_report_name, "w") as mismatch_ECMP_report:
+            mismatch_ECMP_report.write(str(self.compare_mismatch_ECMP_dict))
+        with open(correct_unique_report_name, "w") as correct_unique_report:
+            correct_unique_report.write(str(self.compare_correct_unique_dict))
+        with open(mismatch_unique_report_name, "w") as mismatch_unique_report:
+            mismatch_unique_report.write(str(self.compare_mismatch_unique_dict))
+        with open(notfound_unique_report_name, "w") as notfound_unique_report:
+            notfound_unique_report.write(str(self.compare_notfound_unique_dict))
+        print ("=================")
+        print("Results written to " + report_path + " for comparison on " + self.compare)
+        print("WARNING: ECMP routes that mismatch and not found are listed together in '.mismatch' file")
+        pprint("=========================================================")
 
-correct_ospf_nei_filename = "ospf.neighbors.yml"
-output_ospf_nei_filename = "show.ip.ospf.neighbor.output.txt"
-sanitise_ospf_nei_parameters = ["dead_time"]
-comparison_ospf_nei = "neighbor_id"
+if __name__ == "__main__":
+    ### example variables
+    correct_path = "./correct_outputs"
+    output_path = "./show_outputs"
+    host_file = "hosts.yml"
+    report_path = "./reports"
 
-correct_routes_filename = "routes.yml"
-output_routes_filename = "show.ip.route.output.txt"
-sanitise_routes_parameters = ["metric", "uptime", "nexthopif"]
+    ### REFERENCE: class variables - correct_path,output_path,host_file,correct_filename,output_filename,sanitise_parameters
+    ### EXAMPLE check show ip interface brief
 
-### example run
-job = ntc_check()
-hosts = job.generate_host_list(correct_path,host_file)
+    correct_interfaces_filename = "interfaces.yml"
+    output__interfaces_filename = "show.ip.interface.brief.output.txt"
+    comparison_interfaces = "intf"
 
-### example check interfaces
-correct_interfaces = job.generate_show_list(correct_path, correct_interfaces_filename )
-show_interfaces = job.generate_show_list(output_path, output__interfaces_filename )
-check_interfaces = job.compare_generic(hosts, correct_interfaces, show_interfaces, comparison_interfaces)
+    job_interfaces = ntc_check(report_path, correct_path,output_path,host_file,correct_interfaces_filename, output__interfaces_filename, comparison_interfaces)
+    job_interfaces.generate_host_list()
+    job_interfaces.generate_show_list("correct")
+    job_interfaces.generate_show_list("output")
+    job_interfaces.compare_generic()
 
-### example check OSPF neighbors - exclude ["dead_time"]
-correct_ospf_nei = job.generate_show_list(correct_path, correct_ospf_nei_filename, )
-show_ospf_nei = job.generate_show_list(output_path, output_ospf_nei_filename, sanitise_ospf_nei_parameters )
-check_ospf_nei = job.compare_generic(hosts, correct_ospf_nei, show_ospf_nei, comparison_ospf_nei)
+    ### EXAMPLE check OSPF neighbors - exclude ["dead_time"]
+    correct_ospf_nei_filename = "ospf.neighbors.yml"
+    output_ospf_nei_filename = "show.ip.ospf.neighbor.output.txt"
+    comparison_ospf_nei = "neighbor_id"
+    sanitise_ospf_nei_parameters = ["dead_time"]
 
-### example check routes - ["metric", "uptime", "nexthopif"], call specific route parsing show
-correct_routes = job.generate_routes_list(correct_path, correct_routes_filename, )
-show_routes = job.generate_routes_list (output_path, output_routes_filename, sanitise_routes_parameters )
-check_routes = job.compare_routes(hosts, correct_routes, show_routes)
+
+    job_ospf_nei = ntc_check(report_path, correct_path,output_path,host_file,correct_ospf_nei_filename, output_ospf_nei_filename, comparison_ospf_nei, sanitise_ospf_nei_parameters)
+    job_ospf_nei.generate_host_list()
+    job_ospf_nei.generate_show_list("correct")
+    job_ospf_nei.generate_show_list("output")
+    job_ospf_nei.compare_generic()
+
+    ### example check routes - ["metric", "uptime", "nexthopif"], call specific route parsing show
+    correct_routes_filename = "routes.yml"
+    output_routes_filename = "show.ip.route.output.txt"
+    comparison_routes = 'network'
+    sanitise_routes_parameters = ["metric", "uptime", "nexthopif"]
+
+    ###
+    job_routes = ntc_check(report_path, correct_path,output_path,host_file,correct_routes_filename, output_routes_filename, comparison_routes, sanitise_routes_parameters)
+    job_routes.generate_host_list()
+    job_routes.generate_routes_list("correct")
+    job_routes.generate_routes_list("output")
+    job_routes.compare_routes()
 
