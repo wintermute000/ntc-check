@@ -45,18 +45,18 @@ Before using:
 - need LIST of parameters to exclude from comparison - must use exact ntc-ansible returned JSON key e.g. comparing OSPF neighbors you probably don't want 'dead_time'
 - for multiple parameters use a python list ['exclude-A','exclude-B']
 
-- use ntc-ansible in an ansible play to grab details and place in per-host text files somewhere. MUST use naming schema '<host>.<template_name>'
+- use ntc-ansible in an ansible play to grab details and place in per-host text files somewhere. MUST use naming schema ''host'.'template_name''
 - instantiate the Class
 - generate the list of hosts - requires YML list of hosts
-- generate the list of correct JSON - call method generate_show_list(<path of correct YAML files> , <template_name>)
-- generate the list of ntc-ansible obtained JSON - call method generate_show_list(<path of show output YAML files> , <template_name>, <paramters_to_exclude>)
-- run the comparison - call method compare_generic(<hosts>, <correct list>, <show list>, <exact key to compare e.g. 'neighbor_id'>)
+- generate the list of correct JSON - call method generate_show_list('path of correct YAML files' , 'template_name')
+- generate the list of ntc-ansible obtained JSON - call method generate_show_list('path of show output YAML files' , 'template_name', 'paramters_to_exclude')
+- run the comparison - call method compare_generic('hosts', 'correct list', 'show list', 'exact key to compare e.g. 'neighbor_id'')
 
 #FOR SHOW IP ROUTE:
 Use different methods
-- generate the list of correct JSON - call method generate_routes_list(<path of correct YAML files> , <template_name>)
-- generate the list of ntc-ansible obtained JSON - call method generate_routes_list(<path of show output YAML files> , <template_name>, <paramters_to_exclude>)
-- run the comparison - call method compare_routes(<hosts>, <correct list>, <show list>, <exact key to compare e.g. 'neighbor_id'>)
+- generate the list of correct JSON - call method generate_routes_list('path of correct YAML files' , 'template_name')
+- generate the list of ntc-ansible obtained JSON - call method generate_routes_list('path of show output YAML files' , 'template_name', 'paramters_to_exclude')
+- run the comparison - call method compare_routes('hosts', 'correct list', 'show list', 'exact key to compare e.g. 'neighbor_id'')
 
 
 #EXAMPLE: HOW TO USE
