@@ -1,0 +1,47 @@
+ospf_process: 1
+
+ospf_networks:
+  - network: 4.4.4.4
+    reverse_mask: 0.0.0.0
+    area: 0
+  - network: 10.1.2.0
+    reverse_mask: 0.0.0.3
+    area: 0
+  - network: 10.1.4.0
+    reverse_mask: 0.0.0.3
+    area: 0
+
+ip_addresses:
+  - interface: Loopback0
+    description: Router-ID
+    ip_address: 4.4.4.4
+    ip_mask: 255.255.255.255
+
+  - interface: Ethernet0/0
+    description: "TO R2"
+    ip_address: 10.1.2.2
+    ip_mask: 255.255.255.252
+
+  - interface: Ethernet0/1
+    description: "TO R3"
+    ip_address: 10.1.4.2
+    ip_mask: 255.255.255.252
+
+ping_targets:
+    - source: 4.4.4.4
+      destination: 1.1.1.1
+      repeat: 3
+      timeout: 2
+      size: 1500
+      
+    - source: 4.4.4.4
+      destination: 2.2.2.2
+      repeat: 3
+      timeout: 2
+      size: 1500
+
+    - source: 4.4.4.4
+      destination: 3.3.3.3
+      repeat: 3
+      timeout: 2
+      size: 1500

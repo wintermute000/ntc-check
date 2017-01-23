@@ -1,0 +1,25 @@
+=============
+Device - r1
+Ping from Source 1.1.1.1 to Destination 2.2.2.2 OK
+Ping from Source 1.1.1.1 to Destination 3.3.3.3 OK
+Ping from Source 1.1.1.1 to Destination 4.4.4.4 OK
+Ping from Source 1.1.1.1 to Destination 88.88.88.88 FAIL!
+=============
+Device - r2
+Ping from Source 2.2.2.2 to Destination 1.1.1.1 OK
+Ping from Source 2.2.2.2 to Destination 3.3.3.3 OK
+Ping from Source 2.2.2.2 to Destination 4.4.4.4 OK
+Ping from Source 2.2.2.2 to Destination 88.88.88.88 FAIL!
+=============
+Device - r3
+Ping from Source 3.3.3.3 to Destination 1.1.1.1 OK
+Ping from Source 3.3.3.3 to Destination 2.2.2.2 OK
+Ping from Source 3.3.3.3 to Destination 4.4.4.4 OK
+Ping from Source 3.3.3.3 to Destination 88.88.88.88 FAIL!
+=============
+Device - r4
+Ping from Source 4.4.4.4 to Destination 1.1.1.1 OK
+Ping from Source 4.4.4.4 to Destination 2.2.2.2 OK
+Ping from Source 4.4.4.4 to Destination 3.3.3.3 OK
+
+Process finished with exit code 0

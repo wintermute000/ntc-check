@@ -1,0 +1,29 @@
+- network: 2.2.2.2
+  mask: /32
+  distance: '110'
+  protocol: O
+  type: ''
+  nexthopip: 10.1.2.1
+
+- network: 3.3.3.3
+  mask: /32
+  distance: '110'
+  protocol: O
+  type: ''
+  nexthopip: 10.1.4.1
+
+- network: 1.1.1.1
+  mask: /32
+  distance: '110'
+  protocol: O
+  type: ''
+  nexthopip: 10.1.4.1
+
+- network: 1.1.1.1
+  mask: /32
+  distance: '110'
+  protocol: O
+  type: ''
+  nexthopip: 10.1.2.1
+
+

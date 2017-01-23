@@ -1,0 +1,56 @@
+---
+- hosts: all
+  connection: local
+  gather_facts: no
+
+  tasks:
+  - name: get show ip interface brief
+    ntc_show_command:
+      connection: ssh
+      command: 'show ip interface brief'
+      template_dir: "/usr/share/ansible/ntc-ansible/ntc-templates/templates"
+      platform: "{{ platform }}"
+      host: "{{ inventory_hostname }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+    register: show_ip_interface_brief_output
+
+  - set_fact: show_ip_interface_brief_output={{ show_ip_interface_brief_output }}
+
+  - debug: var=show_ip_interface_brief_output.response
+
+  - copy: content="{{ show_ip_interface_brief_output.response }}" dest=./show_outputs/{{ inventory_hostname }}.show.ip.interface.brief.output.txt
+
+  - name: get show ip ospf neighbor
+    ntc_show_command:
+      connection: ssh
+      command: 'show ip ospf neighbor'
+      template_dir: "/usr/share/ansible/ntc-ansible/ntc-templates/templates"
+      platform: "{{ platform }}"
+      host: "{{ inventory_hostname }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+    register: show_ip_ospf_neighbor_output
+
+  - set_fact: show_ip_ospf_neighbor_output={{ show_ip_ospf_neighbor_output}}
+
+  - debug: var=show_ip_ospf_neighbor_output.response
+
+  - copy: content="{{ show_ip_ospf_neighbor_output.response }}" dest=./show_outputs/{{ inventory_hostname }}.show.ip.ospf.neighbor.output.txt
+
+  - name: get show ip route
+    ntc_show_command:
+      connection: ssh
+      command: 'show ip route'
+      template_dir: "/usr/share/ansible/ntc-ansible/ntc-templates/templates"
+      platform: "{{ platform }}"
+      host: "{{ inventory_hostname }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+    register: show_ip_route_output
+
+  - set_fact: show_ip_route_output={{ show_ip_route_output }}
+
+  - debug: var=show_ip_route_output.response
+
+  - copy: content="{{ show_ip_route_output.response }}" dest=./show_outputs/{{ inventory_hostname }}.show.ip.route.output.txt

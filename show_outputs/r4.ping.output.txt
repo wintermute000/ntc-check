@@ -1,0 +1,3 @@
+[u'Type escape sequence to abort.\nSending 3, 1500-byte ICMP Echos to 1.1.1.1, timeout is 2 seconds:\nPacket sent with a source address of 4.4.4.4 \n!!!\nSuccess rate is 100 percent (3/3), round-trip min/avg/max = 1/1/1 ms']
+[u'Type escape sequence to abort.\nSending 3, 1500-byte ICMP Echos to 2.2.2.2, timeout is 2 seconds:\nPacket sent with a source address of 4.4.4.4 \n!!!\nSuccess rate is 100 percent (3/3), round-trip min/avg/max = 1/1/1 ms']
+[u'Type escape sequence to abort.\nSending 3, 1500-byte ICMP Echos to 3.3.3.3, timeout is 2 seconds:\nPacket sent with a source address of 4.4.4.4 \n!!!\nSuccess rate is 100 percent (3/3), round-trip min/avg/max = 1/1/1 ms']

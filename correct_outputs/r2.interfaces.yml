@@ -1,0 +1,14 @@
+- intf: Ethernet0/0
+  ipaddr: 10.1.1.2
+  proto: up
+  status: up
+
+- intf: Ethernet0/1
+  ipaddr: 10.1.2.1
+  proto: up
+  status: up
+
+- intf: Loopback0
+  ipaddr: 2.2.2.2
+  proto: up
+  status: up

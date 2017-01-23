@@ -1,0 +1,29 @@
+---
+- hosts: all
+  connection: local
+  gather_facts: no
+
+  tasks:
+  - name: define provider
+    set_fact:
+      provider:
+        host: "{{ inventory_hostname }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        auth_pass: "{{ auth_pass }}"
+        authorize: "{{ authorize }}"
+        backup: "{{ backup }}"
+
+  - name: ping test
+    ios_command:
+      provider: "{{ provider }}"
+      commands: ping {{ item.destination }} source {{ item.source }} repeat {{ item.repeat }} timeout {{ item.timeout }} size {{ item.size }}
+
+    with_items: "{{ ping_targets }}"
+    register: ping
+
+  - template: src=./templates/ping.j2 dest=./show_outputs/{{ inventory_hostname }}.ping.output.txt
+
+  - debug: var=ping.results
+
+# ping.results[0].stdout_lines

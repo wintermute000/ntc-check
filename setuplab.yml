@@ -1,0 +1,34 @@
+---
+- hosts: all
+  connection: local
+  gather_facts: no
+
+  tasks:
+  - name: define provider
+    set_fact:
+      provider:
+        host: "{{ inventory_hostname }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        auth_pass: "{{ auth_pass }}"
+        authorize: "{{ authorize }}"
+        backup: "{{ backup }}"
+
+  - name: push an interface template onto the device
+    ios_template:
+      provider: "{{ provider }}"
+      src: config.j2
+
+  - name: push a routing template onto the device
+    ios_template:
+      provider: "{{ provider }}"
+      src: ospf.j2
+
+  - name: no shut
+    ios_config:
+      provider: "{{ provider }}"
+      lines:
+        - no shutdown
+      parents: interface {{ item.interface }}
+    with_items:
+      - "{{ ip_addresses }}"

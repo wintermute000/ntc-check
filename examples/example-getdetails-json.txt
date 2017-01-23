@@ -1,0 +1,976 @@
+
+ansible@unl01:~/automated-testlab$ rm ./show_outputs/*
+ansible@unl01:~/automated-testlab$ ansible-playbook -v -i ./hosts ./getdetails.yml 
+Using /etc/ansible/ansible.cfg as config file
+ ____________
+< PLAY [all] >
+ ------------
+        \   ^__^
+         \  (oo)\_______
+            (__)\       )\/\
+                ||----w |
+                ||     ||
+
+ ____________________________________
+< TASK [get show ip interface brief] >
+ ------------------------------------
+        \   ^__^
+         \  (oo)\_______
+            (__)\       )\/\
+                ||----w |
+                ||     ||
+
+ok: [r1] => {"changed": false, "response": [{"intf": "Ethernet0/0", "ipaddr": "10.1.1.1", "proto": "up", "status": "up"}, {"intf": "Ethernet0/1", "ipaddr": "10.1.3.1", "proto": "up", "status": "up"}, {"intf": "Ethernet0/2", "ipaddr": "unassigned", "proto": "down", "status": "administratively down"}, {"intf": "Ethernet0/3", "ipaddr": "172.17.1.11", "proto": "up", "status": "up"}, {"intf": "Loopback0", "ipaddr": "1.1.1.1", "proto": "up", "status": "up"}], "response_list": []}
+ok: [r2] => {"changed": false, "response": [{"intf": "Ethernet0/0", "ipaddr": "10.1.1.2", "proto": "up", "status": "up"}, {"intf": "Ethernet0/1", "ipaddr": "10.1.2.1", "proto": "up", "status": "up"}, {"intf": "Ethernet0/2", "ipaddr": "unassigned", "proto": "down", "status": "administratively down"}, {"intf": "Ethernet0/3", "ipaddr": "172.17.1.12", "proto": "up", "status": "up"}, {"intf": "Loopback0", "ipaddr": "2.2.2.2", "proto": "up", "status": "up"}], "response_list": []}
+ok: [r3] => {"changed": false, "response": [{"intf": "Ethernet0/0", "ipaddr": "10.1.3.2", "proto": "up", "status": "up"}, {"intf": "Ethernet0/1", "ipaddr": "10.1.4.1", "proto": "up", "status": "up"}, {"intf": "Ethernet0/2", "ipaddr": "unassigned", "proto": "down", "status": "administratively down"}, {"intf": "Ethernet0/3", "ipaddr": "172.17.1.13", "proto": "up", "status": "up"}, {"intf": "Loopback0", "ipaddr": "3.3.3.3", "proto": "up", "status": "up"}], "response_list": []}
+ok: [r4] => {"changed": false, "response": [{"intf": "Ethernet0/0", "ipaddr": "10.1.2.2", "proto": "up", "status": "up"}, {"intf": "Ethernet0/1", "ipaddr": "10.1.4.2", "proto": "up", "status": "up"}, {"intf": "Ethernet0/2", "ipaddr": "unassigned", "proto": "down", "status": "administratively down"}, {"intf": "Ethernet0/3", "ipaddr": "172.17.1.14", "proto": "up", "status": "up"}, {"intf": "Loopback0", "ipaddr": "4.4.4.4", "proto": "up", "status": "up"}], "response_list": []}
+ _________________
+< TASK [set_fact] >
+ -----------------
+        \   ^__^
+         \  (oo)\_______
+            (__)\       )\/\
+                ||----w |
+                ||     ||
+
+ok: [r3] => {"ansible_facts": {"show_ip_interface_brief_output": {"changed": false, "response": [{"intf": "Ethernet0/0", "ipaddr": "10.1.3.2", "proto": "up", "status": "up"}, {"intf": "Ethernet0/1", "ipaddr": "10.1.4.1", "proto": "up", "status": "up"}, {"intf": "Ethernet0/2", "ipaddr": "unassigned", "proto": "down", "status": "administratively down"}, {"intf": "Ethernet0/3", "ipaddr": "172.17.1.13", "proto": "up", "status": "up"}, {"intf": "Loopback0", "ipaddr": "3.3.3.3", "proto": "up", "status": "up"}], "response_list": []}}, "changed": false}
+ok: [r1] => {"ansible_facts": {"show_ip_interface_brief_output": {"changed": false, "response": [{"intf": "Ethernet0/0", "ipaddr": "10.1.1.1", "proto": "up", "status": "up"}, {"intf": "Ethernet0/1", "ipaddr": "10.1.3.1", "proto": "up", "status": "up"}, {"intf": "Ethernet0/2", "ipaddr": "unassigned", "proto": "down", "status": "administratively down"}, {"intf": "Ethernet0/3", "ipaddr": "172.17.1.11", "proto": "up", "status": "up"}, {"intf": "Loopback0", "ipaddr": "1.1.1.1", "proto": "up", "status": "up"}], "response_list": []}}, "changed": false}
+ok: [r2] => {"ansible_facts": {"show_ip_interface_brief_output": {"changed": false, "response": [{"intf": "Ethernet0/0", "ipaddr": "10.1.1.2", "proto": "up", "status": "up"}, {"intf": "Ethernet0/1", "ipaddr": "10.1.2.1", "proto": "up", "status": "up"}, {"intf": "Ethernet0/2", "ipaddr": "unassigned", "proto": "down", "status": "administratively down"}, {"intf": "Ethernet0/3", "ipaddr": "172.17.1.12", "proto": "up", "status": "up"}, {"intf": "Loopback0", "ipaddr": "2.2.2.2", "proto": "up", "status": "up"}], "response_list": []}}, "changed": false}
+ok: [r4] => {"ansible_facts": {"show_ip_interface_brief_output": {"changed": false, "response": [{"intf": "Ethernet0/0", "ipaddr": "10.1.2.2", "proto": "up", "status": "up"}, {"intf": "Ethernet0/1", "ipaddr": "10.1.4.2", "proto": "up", "status": "up"}, {"intf": "Ethernet0/2", "ipaddr": "unassigned", "proto": "down", "status": "administratively down"}, {"intf": "Ethernet0/3", "ipaddr": "172.17.1.14", "proto": "up", "status": "up"}, {"intf": "Loopback0", "ipaddr": "4.4.4.4", "proto": "up", "status": "up"}], "response_list": []}}, "changed": false}
+ ______________
+< TASK [debug] >
+ --------------
+        \   ^__^
+         \  (oo)\_______
+            (__)\       )\/\
+                ||----w |
+                ||     ||
+
+ok: [r1] => {
+    "show_ip_interface_brief_output.response": [
+        {
+            "intf": "Ethernet0/0", 
+            "ipaddr": "10.1.1.1", 
+            "proto": "up", 
+            "status": "up"
+        }, 
+        {
+            "intf": "Ethernet0/1", 
+            "ipaddr": "10.1.3.1", 
+            "proto": "up", 
+            "status": "up"
+        }, 
+        {
+            "intf": "Ethernet0/2", 
+            "ipaddr": "unassigned", 
+            "proto": "down", 
+            "status": "administratively down"
+        }, 
+        {
+            "intf": "Ethernet0/3", 
+            "ipaddr": "172.17.1.11", 
+            "proto": "up", 
+            "status": "up"
+        }, 
+        {
+            "intf": "Loopback0", 
+            "ipaddr": "1.1.1.1", 
+            "proto": "up", 
+            "status": "up"
+        }
+    ]
+}
+ok: [r3] => {
+    "show_ip_interface_brief_output.response": [
+        {
+            "intf": "Ethernet0/0", 
+            "ipaddr": "10.1.3.2", 
+            "proto": "up", 
+            "status": "up"
+        }, 
+        {
+            "intf": "Ethernet0/1", 
+            "ipaddr": "10.1.4.1", 
+            "proto": "up", 
+            "status": "up"
+        }, 
+        {
+            "intf": "Ethernet0/2", 
+            "ipaddr": "unassigned", 
+            "proto": "down", 
+            "status": "administratively down"
+        }, 
+        {
+            "intf": "Ethernet0/3", 
+            "ipaddr": "172.17.1.13", 
+            "proto": "up", 
+            "status": "up"
+        }, 
+        {
+            "intf": "Loopback0", 
+            "ipaddr": "3.3.3.3", 
+            "proto": "up", 
+            "status": "up"
+        }
+    ]
+}
+ok: [r2] => {
+    "show_ip_interface_brief_output.response": [
+        {
+            "intf": "Ethernet0/0", 
+            "ipaddr": "10.1.1.2", 
+            "proto": "up", 
+            "status": "up"
+        }, 
+        {
+            "intf": "Ethernet0/1", 
+            "ipaddr": "10.1.2.1", 
+            "proto": "up", 
+            "status": "up"
+        }, 
+        {
+            "intf": "Ethernet0/2", 
+            "ipaddr": "unassigned", 
+            "proto": "down", 
+            "status": "administratively down"
+        }, 
+        {
+            "intf": "Ethernet0/3", 
+            "ipaddr": "172.17.1.12", 
+            "proto": "up", 
+            "status": "up"
+        }, 
+        {
+            "intf": "Loopback0", 
+            "ipaddr": "2.2.2.2", 
+            "proto": "up", 
+            "status": "up"
+        }
+    ]
+}
+ok: [r4] => {
+    "show_ip_interface_brief_output.response": [
+        {
+            "intf": "Ethernet0/0", 
+            "ipaddr": "10.1.2.2", 
+            "proto": "up", 
+            "status": "up"
+        }, 
+        {
+            "intf": "Ethernet0/1", 
+            "ipaddr": "10.1.4.2", 
+            "proto": "up", 
+            "status": "up"
+        }, 
+        {
+            "intf": "Ethernet0/2", 
+            "ipaddr": "unassigned", 
+            "proto": "down", 
+            "status": "administratively down"
+        }, 
+        {
+            "intf": "Ethernet0/3", 
+            "ipaddr": "172.17.1.14", 
+            "proto": "up", 
+            "status": "up"
+        }, 
+        {
+            "intf": "Loopback0", 
+            "ipaddr": "4.4.4.4", 
+            "proto": "up", 
+            "status": "up"
+        }
+    ]
+}
+ _____________
+< TASK [copy] >
+ -------------
+        \   ^__^
+         \  (oo)\_______
+            (__)\       )\/\
+                ||----w |
+                ||     ||
+
+changed: [r3] => {"changed": true, "checksum": "5e023237c616076e10c8accbfbfa4e78bc730f90", "dest": "./show_outputs/r3.show.ip.interface.brief.output.txt", "gid": 1000, "group": "ansible", "md5sum": "bf0d96e6acd8b8628eacb3d7282da599", "mode": "0664", "owner": "ansible", "size": 413, "src": "/home/ansible/.ansible/tmp/ansible-tmp-1484715175.64-37101804605090/source", "state": "file", "uid": 1000}
+changed: [r2] => {"changed": true, "checksum": "df62ecf2d2fff8639b24b9f3af5a223fff690e86", "dest": "./show_outputs/r2.show.ip.interface.brief.output.txt", "gid": 1000, "group": "ansible", "md5sum": "aeb66e496ef2ac5ff3e7913d2d8755b5", "mode": "0664", "owner": "ansible", "size": 413, "src": "/home/ansible/.ansible/tmp/ansible-tmp-1484715175.63-175032879485584/source", "state": "file", "uid": 1000}
+changed: [r4] => {"changed": true, "checksum": "5699d5be73a695c9fb81f36a08369c17386b0459", "dest": "./show_outputs/r4.show.ip.interface.brief.output.txt", "gid": 1000, "group": "ansible", "md5sum": "556886c01916e6670c492336023af9d4", "mode": "0664", "owner": "ansible", "size": 413, "src": "/home/ansible/.ansible/tmp/ansible-tmp-1484715175.65-270894102003850/source", "state": "file", "uid": 1000}
+changed: [r1] => {"changed": true, "checksum": "0c05f124db47eff02a7ea7096df0455b62061282", "dest": "./show_outputs/r1.show.ip.interface.brief.output.txt", "gid": 1000, "group": "ansible", "md5sum": "38186b6d0d296908d2aef5af14abc753", "mode": "0664", "owner": "ansible", "size": 413, "src": "/home/ansible/.ansible/tmp/ansible-tmp-1484715175.63-208670536758229/source", "state": "file", "uid": 1000}
+ __________________________________
+< TASK [get show ip ospf neighbor] >
+ ----------------------------------
+        \   ^__^
+         \  (oo)\_______
+            (__)\       )\/\
+                ||----w |
+                ||     ||
+
+ok: [r1] => {"changed": false, "response": [{"address": "10.1.3.2", "dead_time": "00:00:31", "interface": "Ethernet0/1", "neighbor_id": "3.3.3.3", "priority": "1", "state": "FULL/DR"}, {"address": "10.1.1.2", "dead_time": "00:00:30", "interface": "Ethernet0/0", "neighbor_id": "2.2.2.2", "priority": "1", "state": "FULL/DR"}], "response_list": []}
+ok: [r4] => {"changed": false, "response": [{"address": "10.1.4.1", "dead_time": "00:00:32", "interface": "Ethernet0/1", "neighbor_id": "3.3.3.3", "priority": "1", "state": "FULL/BDR"}, {"address": "10.1.2.1", "dead_time": "00:00:39", "interface": "Ethernet0/0", "neighbor_id": "2.2.2.2", "priority": "1", "state": "FULL/BDR"}], "response_list": []}
+ok: [r2] => {"changed": false, "response": [{"address": "10.1.2.2", "dead_time": "00:00:39", "interface": "Ethernet0/1", "neighbor_id": "88.88.88.88", "priority": "1", "state": "FULL/DR"}, {"address": "10.1.1.1", "dead_time": "00:00:38", "interface": "Ethernet0/0", "neighbor_id": "1.1.1.1", "priority": "1", "state": "FULL/BDR"}], "response_list": []}
+ok: [r3] => {"changed": false, "response": [{"address": "10.1.4.2", "dead_time": "00:00:33", "interface": "Ethernet0/1", "neighbor_id": "88.88.88.88", "priority": "1", "state": "FULL/DR"}, {"address": "10.1.3.1", "dead_time": "00:00:32", "interface": "Ethernet0/0", "neighbor_id": "1.1.1.1", "priority": "1", "state": "FULL/BDR"}], "response_list": []}
+ _________________
+< TASK [set_fact] >
+ -----------------
+        \   ^__^
+         \  (oo)\_______
+            (__)\       )\/\
+                ||----w |
+                ||     ||
+
+ok: [r3] => {"ansible_facts": {"show_ip_ospf_neighbor_output": {"changed": false, "response": [{"address": "10.1.4.2", "dead_time": "00:00:33", "interface": "Ethernet0/1", "neighbor_id": "88.88.88.88", "priority": "1", "state": "FULL/DR"}, {"address": "10.1.3.1", "dead_time": "00:00:32", "interface": "Ethernet0/0", "neighbor_id": "1.1.1.1", "priority": "1", "state": "FULL/BDR"}], "response_list": []}}, "changed": false}
+ok: [r2] => {"ansible_facts": {"show_ip_ospf_neighbor_output": {"changed": false, "response": [{"address": "10.1.2.2", "dead_time": "00:00:39", "interface": "Ethernet0/1", "neighbor_id": "88.88.88.88", "priority": "1", "state": "FULL/DR"}, {"address": "10.1.1.1", "dead_time": "00:00:38", "interface": "Ethernet0/0", "neighbor_id": "1.1.1.1", "priority": "1", "state": "FULL/BDR"}], "response_list": []}}, "changed": false}
+ok: [r1] => {"ansible_facts": {"show_ip_ospf_neighbor_output": {"changed": false, "response": [{"address": "10.1.3.2", "dead_time": "00:00:31", "interface": "Ethernet0/1", "neighbor_id": "3.3.3.3", "priority": "1", "state": "FULL/DR"}, {"address": "10.1.1.2", "dead_time": "00:00:30", "interface": "Ethernet0/0", "neighbor_id": "2.2.2.2", "priority": "1", "state": "FULL/DR"}], "response_list": []}}, "changed": false}
+ok: [r4] => {"ansible_facts": {"show_ip_ospf_neighbor_output": {"changed": false, "response": [{"address": "10.1.4.1", "dead_time": "00:00:32", "interface": "Ethernet0/1", "neighbor_id": "3.3.3.3", "priority": "1", "state": "FULL/BDR"}, {"address": "10.1.2.1", "dead_time": "00:00:39", "interface": "Ethernet0/0", "neighbor_id": "2.2.2.2", "priority": "1", "state": "FULL/BDR"}], "response_list": []}}, "changed": false}
+ ______________
+< TASK [debug] >
+ --------------
+        \   ^__^
+         \  (oo)\_______
+            (__)\       )\/\
+                ||----w |
+                ||     ||
+
+ok: [r1] => {
+    "show_ip_ospf_neighbor_output.response": [
+        {
+            "address": "10.1.3.2", 
+            "dead_time": "00:00:31", 
+            "interface": "Ethernet0/1", 
+            "neighbor_id": "3.3.3.3", 
+            "priority": "1", 
+            "state": "FULL/DR"
+        }, 
+        {
+            "address": "10.1.1.2", 
+            "dead_time": "00:00:30", 
+            "interface": "Ethernet0/0", 
+            "neighbor_id": "2.2.2.2", 
+            "priority": "1", 
+            "state": "FULL/DR"
+        }
+    ]
+}
+ok: [r2] => {
+    "show_ip_ospf_neighbor_output.response": [
+        {
+            "address": "10.1.2.2", 
+            "dead_time": "00:00:39", 
+            "interface": "Ethernet0/1", 
+            "neighbor_id": "88.88.88.88", 
+            "priority": "1", 
+            "state": "FULL/DR"
+        }, 
+        {
+            "address": "10.1.1.1", 
+            "dead_time": "00:00:38", 
+            "interface": "Ethernet0/0", 
+            "neighbor_id": "1.1.1.1", 
+            "priority": "1", 
+            "state": "FULL/BDR"
+        }
+    ]
+}
+ok: [r3] => {
+    "show_ip_ospf_neighbor_output.response": [
+        {
+            "address": "10.1.4.2", 
+            "dead_time": "00:00:33", 
+            "interface": "Ethernet0/1", 
+            "neighbor_id": "88.88.88.88", 
+            "priority": "1", 
+            "state": "FULL/DR"
+        }, 
+        {
+            "address": "10.1.3.1", 
+            "dead_time": "00:00:32", 
+            "interface": "Ethernet0/0", 
+            "neighbor_id": "1.1.1.1", 
+            "priority": "1", 
+            "state": "FULL/BDR"
+        }
+    ]
+}
+ok: [r4] => {
+    "show_ip_ospf_neighbor_output.response": [
+        {
+            "address": "10.1.4.1", 
+            "dead_time": "00:00:32", 
+            "interface": "Ethernet0/1", 
+            "neighbor_id": "3.3.3.3", 
+            "priority": "1", 
+            "state": "FULL/BDR"
+        }, 
+        {
+            "address": "10.1.2.1", 
+            "dead_time": "00:00:39", 
+            "interface": "Ethernet0/0", 
+            "neighbor_id": "2.2.2.2", 
+            "priority": "1", 
+            "state": "FULL/BDR"
+        }
+    ]
+}
+ _____________
+< TASK [copy] >
+ -------------
+        \   ^__^
+         \  (oo)\_______
+            (__)\       )\/\
+                ||----w |
+                ||     ||
+
+changed: [r4] => {"changed": true, "checksum": "1a5af83c3184de9ed9d1689f91604ae40f63723f", "dest": "./show_outputs/r4.show.ip.ospf.neighbor.output.txt", "gid": 1000, "group": "ansible", "md5sum": "c25bb60695b1ed3b0996c5f7619d06bc", "mode": "0664", "owner": "ansible", "size": 284, "src": "/home/ansible/.ansible/tmp/ansible-tmp-1484715180.98-39152206404830/source", "state": "file", "uid": 1000}
+changed: [r2] => {"changed": true, "checksum": "40a469708bf75b94a04852b8e94084e0fc344c15", "dest": "./show_outputs/r2.show.ip.ospf.neighbor.output.txt", "gid": 1000, "group": "ansible", "md5sum": "70f307fc3341383943de743ae7de3bee", "mode": "0664", "owner": "ansible", "size": 287, "src": "/home/ansible/.ansible/tmp/ansible-tmp-1484715180.97-122026440385253/source", "state": "file", "uid": 1000}
+changed: [r3] => {"changed": true, "checksum": "d1ab5c6ab30883bb4557ea351f3725c69418f78a", "dest": "./show_outputs/r3.show.ip.ospf.neighbor.output.txt", "gid": 1000, "group": "ansible", "md5sum": "2e72a825a555547d5e6258d767028df9", "mode": "0664", "owner": "ansible", "size": 287, "src": "/home/ansible/.ansible/tmp/ansible-tmp-1484715180.99-276807387244782/source", "state": "file", "uid": 1000}
+changed: [r1] => {"changed": true, "checksum": "e076318408a477e34b8ff473da8e4b9b266f6608", "dest": "./show_outputs/r1.show.ip.ospf.neighbor.output.txt", "gid": 1000, "group": "ansible", "md5sum": "a97ce5cbfc7f6ddc51b212d418e0807c", "mode": "0664", "owner": "ansible", "size": 282, "src": "/home/ansible/.ansible/tmp/ansible-tmp-1484715180.99-186651240566513/source", "state": "file", "uid": 1000}
+ __________________________
+< TASK [get show ip route] >
+ --------------------------
+        \   ^__^
+         \  (oo)\_______
+            (__)\       )\/\
+                ||----w |
+                ||     ||
+
+ok: [r4] => {"changed": false, "response": [{"distance": "110", "mask": "/32", "metric": "21", "network": "1.1.1.1", "nexthopif": "Ethernet0/1", "nexthopip": "10.1.4.1", "protocol": "O", "type": "", "uptime": "00:06:00"}, {"distance": "110", "mask": "/32", "metric": "21", "network": "1.1.1.1", "nexthopif": "", "nexthopip": "10.1.2.1", "protocol": "O", "type": "", "uptime": ""}, {"distance": "110", "mask": "/32", "metric": "11", "network": "2.2.2.2", "nexthopif": "Ethernet0/0", "nexthopip": "10.1.2.1", "protocol": "O", "type": "", "uptime": "00:06:00"}, {"distance": "110", "mask": "/32", "metric": "11", "network": "3.3.3.3", "nexthopif": "Ethernet0/1", "nexthopip": "10.1.4.1", "protocol": "O", "type": "", "uptime": "00:06:00"}, {"distance": "", "mask": "/32", "metric": "", "network": "4.4.4.4", "nexthopif": "Loopback0", "nexthopip": "", "protocol": "C", "type": "", "uptime": ""}, {"distance": "110", "mask": "/30", "metric": "20", "network": "10.1.1.0", "nexthopif": "Ethernet0/0", "nexthopip": "10.1.2.1", "protocol": "O", "type": "", "uptime": "00:06:00"}, {"distance": "", "mask": "/30", "metric": "", "network": "10.1.2.0", "nexthopif": "Ethernet0/0", "nexthopip": "", "protocol": "C", "type": "", "uptime": ""}, {"distance": "", "mask": "/32", "metric": "", "network": "10.1.2.2", "nexthopif": "Ethernet0/0", "nexthopip": "", "protocol": "L", "type": "", "uptime": ""}, {"distance": "110", "mask": "/30", "metric": "20", "network": "10.1.3.0", "nexthopif": "Ethernet0/1", "nexthopip": "10.1.4.1", "protocol": "O", "type": "", "uptime": "00:06:00"}, {"distance": "", "mask": "/30", "metric": "", "network": "10.1.4.0", "nexthopif": "Ethernet0/1", "nexthopip": "", "protocol": "C", "type": "", "uptime": ""}, {"distance": "", "mask": "/32", "metric": "", "network": "10.1.4.2", "nexthopif": "Ethernet0/1", "nexthopip": "", "protocol": "L", "type": "", "uptime": ""}, {"distance": "", "mask": "/24", "metric": "", "network": "172.17.1.0", "nexthopif": "Ethernet0/3", "nexthopip": "", "protocol": "C", "type": "", "uptime": ""}, {"distance": "", "mask": "/32", "metric": "", "network": "172.17.1.14", "nexthopif": "Ethernet0/3", "nexthopip": "", "protocol": "L", "type": "", "uptime": ""}], "response_list": []}
+ok: [r2] => {"changed": false, "response": [{"distance": "110", "mask": "/32", "metric": "11", "network": "1.1.1.1", "nexthopif": "Ethernet0/0", "nexthopip": "10.1.1.1", "protocol": "O", "type": "", "uptime": "00:05:59"}, {"distance": "", "mask": "/32", "metric": "", "network": "2.2.2.2", "nexthopif": "Loopback0", "nexthopip": "", "protocol": "C", "type": "", "uptime": ""}, {"distance": "110", "mask": "/32", "metric": "21", "network": "3.3.3.3", "nexthopif": "Ethernet0/1", "nexthopip": "10.1.2.2", "protocol": "O", "type": "", "uptime": "00:05:49"}, {"distance": "110", "mask": "/32", "metric": "21", "network": "3.3.3.3", "nexthopif": "", "nexthopip": "10.1.1.1", "protocol": "O", "type": "", "uptime": ""}, {"distance": "110", "mask": "/32", "metric": "11", "network": "4.4.4.4", "nexthopif": "Ethernet0/1", "nexthopip": "10.1.2.2", "protocol": "O", "type": "", "uptime": "00:05:59"}, {"distance": "", "mask": "/30", "metric": "", "network": "10.1.1.0", "nexthopif": "Ethernet0/0", "nexthopip": "", "protocol": "C", "type": "", "uptime": ""}, {"distance": "", "mask": "/32", "metric": "", "network": "10.1.1.2", "nexthopif": "Ethernet0/0", "nexthopip": "", "protocol": "L", "type": "", "uptime": ""}, {"distance": "", "mask": "/30", "metric": "", "network": "10.1.2.0", "nexthopif": "Ethernet0/1", "nexthopip": "", "protocol": "C", "type": "", "uptime": ""}, {"distance": "", "mask": "/32", "metric": "", "network": "10.1.2.1", "nexthopif": "Ethernet0/1", "nexthopip": "", "protocol": "L", "type": "", "uptime": ""}, {"distance": "110", "mask": "/30", "metric": "20", "network": "10.1.3.0", "nexthopif": "Ethernet0/0", "nexthopip": "10.1.1.1", "protocol": "O", "type": "", "uptime": "00:05:59"}, {"distance": "110", "mask": "/30", "metric": "20", "network": "10.1.4.0", "nexthopif": "Ethernet0/1", "nexthopip": "10.1.2.2", "protocol": "O", "type": "", "uptime": "00:05:59"}, {"distance": "", "mask": "/24", "metric": "", "network": "172.17.1.0", "nexthopif": "Ethernet0/3", "nexthopip": "", "protocol": "C", "type": "", "uptime": ""}, {"distance": "", "mask": "/32", "metric": "", "network": "172.17.1.12", "nexthopif": "Ethernet0/3", "nexthopip": "", "protocol": "L", "type": "", "uptime": ""}], "response_list": []}
+ok: [r1] => {"changed": false, "response": [{"distance": "", "mask": "/32", "metric": "", "network": "1.1.1.1", "nexthopif": "Loopback0", "nexthopip": "", "protocol": "C", "type": "", "uptime": ""}, {"distance": "110", "mask": "/32", "metric": "11", "network": "2.2.2.2", "nexthopif": "Ethernet0/0", "nexthopip": "10.1.1.2", "protocol": "O", "type": "", "uptime": "00:06:00"}, {"distance": "110", "mask": "/32", "metric": "11", "network": "3.3.3.3", "nexthopif": "Ethernet0/1", "nexthopip": "10.1.3.2", "protocol": "O", "type": "", "uptime": "00:06:00"}, {"distance": "110", "mask": "/32", "metric": "21", "network": "4.4.4.4", "nexthopif": "Ethernet0/1", "nexthopip": "10.1.3.2", "protocol": "O", "type": "", "uptime": "00:05:50"}, {"distance": "110", "mask": "/32", "metric": "21", "network": "4.4.4.4", "nexthopif": "", "nexthopip": "10.1.1.2", "protocol": "O", "type": "", "uptime": ""}, {"distance": "", "mask": "/30", "metric": "", "network": "10.1.1.0", "nexthopif": "Ethernet0/0", "nexthopip": "", "protocol": "C", "type": "", "uptime": ""}, {"distance": "", "mask": "/32", "metric": "", "network": "10.1.1.1", "nexthopif": "Ethernet0/0", "nexthopip": "", "protocol": "L", "type": "", "uptime": ""}, {"distance": "110", "mask": "/30", "metric": "20", "network": "10.1.2.0", "nexthopif": "Ethernet0/0", "nexthopip": "10.1.1.2", "protocol": "O", "type": "", "uptime": "00:06:00"}, {"distance": "", "mask": "/30", "metric": "", "network": "10.1.3.0", "nexthopif": "Ethernet0/1", "nexthopip": "", "protocol": "C", "type": "", "uptime": ""}, {"distance": "", "mask": "/32", "metric": "", "network": "10.1.3.1", "nexthopif": "Ethernet0/1", "nexthopip": "", "protocol": "L", "type": "", "uptime": ""}, {"distance": "110", "mask": "/30", "metric": "20", "network": "10.1.4.0", "nexthopif": "Ethernet0/1", "nexthopip": "10.1.3.2", "protocol": "O", "type": "", "uptime": "00:06:00"}, {"distance": "", "mask": "/24", "metric": "", "network": "172.17.1.0", "nexthopif": "Ethernet0/3", "nexthopip": "", "protocol": "C", "type": "", "uptime": ""}, {"distance": "", "mask": "/32", "metric": "", "network": "172.17.1.11", "nexthopif": "Ethernet0/3", "nexthopip": "", "protocol": "L", "type": "", "uptime": ""}], "response_list": []}
+ok: [r3] => {"changed": false, "response": [{"distance": "110", "mask": "/32", "metric": "11", "network": "1.1.1.1", "nexthopif": "Ethernet0/0", "nexthopip": "10.1.3.1", "protocol": "O", "type": "", "uptime": "00:06:00"}, {"distance": "110", "mask": "/32", "metric": "21", "network": "2.2.2.2", "nexthopif": "Ethernet0/1", "nexthopip": "10.1.4.2", "protocol": "O", "type": "", "uptime": "00:06:00"}, {"distance": "110", "mask": "/32", "metric": "21", "network": "2.2.2.2", "nexthopif": "", "nexthopip": "10.1.3.1", "protocol": "O", "type": "", "uptime": ""}, {"distance": "", "mask": "/32", "metric": "", "network": "3.3.3.3", "nexthopif": "Loopback0", "nexthopip": "", "protocol": "C", "type": "", "uptime": ""}, {"distance": "110", "mask": "/32", "metric": "11", "network": "4.4.4.4", "nexthopif": "Ethernet0/1", "nexthopip": "10.1.4.2", "protocol": "O", "type": "", "uptime": "00:06:00"}, {"distance": "110", "mask": "/30", "metric": "20", "network": "10.1.1.0", "nexthopif": "Ethernet0/0", "nexthopip": "10.1.3.1", "protocol": "O", "type": "", "uptime": "00:06:00"}, {"distance": "110", "mask": "/30", "metric": "20", "network": "10.1.2.0", "nexthopif": "Ethernet0/1", "nexthopip": "10.1.4.2", "protocol": "O", "type": "", "uptime": "00:06:00"}, {"distance": "", "mask": "/30", "metric": "", "network": "10.1.3.0", "nexthopif": "Ethernet0/0", "nexthopip": "", "protocol": "C", "type": "", "uptime": ""}, {"distance": "", "mask": "/32", "metric": "", "network": "10.1.3.2", "nexthopif": "Ethernet0/0", "nexthopip": "", "protocol": "L", "type": "", "uptime": ""}, {"distance": "", "mask": "/30", "metric": "", "network": "10.1.4.0", "nexthopif": "Ethernet0/1", "nexthopip": "", "protocol": "C", "type": "", "uptime": ""}, {"distance": "", "mask": "/32", "metric": "", "network": "10.1.4.1", "nexthopif": "Ethernet0/1", "nexthopip": "", "protocol": "L", "type": "", "uptime": ""}, {"distance": "", "mask": "/24", "metric": "", "network": "172.17.1.0", "nexthopif": "Ethernet0/3", "nexthopip": "", "protocol": "C", "type": "", "uptime": ""}, {"distance": "", "mask": "/32", "metric": "", "network": "172.17.1.13", "nexthopif": "Ethernet0/3", "nexthopip": "", "protocol": "L", "type": "", "uptime": ""}], "response_list": []}
+ _________________
+< TASK [set_fact] >
+ -----------------
+        \   ^__^
+         \  (oo)\_______
+            (__)\       )\/\
+                ||----w |
+                ||     ||
+
+ok: [r1] => {"ansible_facts": {"show_ip_route_output": {"changed": false, "response": [{"distance": "", "mask": "/32", "metric": "", "network": "1.1.1.1", "nexthopif": "Loopback0", "nexthopip": "", "protocol": "C", "type": "", "uptime": ""}, {"distance": "110", "mask": "/32", "metric": "11", "network": "2.2.2.2", "nexthopif": "Ethernet0/0", "nexthopip": "10.1.1.2", "protocol": "O", "type": "", "uptime": "00:06:00"}, {"distance": "110", "mask": "/32", "metric": "11", "network": "3.3.3.3", "nexthopif": "Ethernet0/1", "nexthopip": "10.1.3.2", "protocol": "O", "type": "", "uptime": "00:06:00"}, {"distance": "110", "mask": "/32", "metric": "21", "network": "4.4.4.4", "nexthopif": "Ethernet0/1", "nexthopip": "10.1.3.2", "protocol": "O", "type": "", "uptime": "00:05:50"}, {"distance": "110", "mask": "/32", "metric": "21", "network": "4.4.4.4", "nexthopif": "", "nexthopip": "10.1.1.2", "protocol": "O", "type": "", "uptime": ""}, {"distance": "", "mask": "/30", "metric": "", "network": "10.1.1.0", "nexthopif": "Ethernet0/0", "nexthopip": "", "protocol": "C", "type": "", "uptime": ""}, {"distance": "", "mask": "/32", "metric": "", "network": "10.1.1.1", "nexthopif": "Ethernet0/0", "nexthopip": "", "protocol": "L", "type": "", "uptime": ""}, {"distance": "110", "mask": "/30", "metric": "20", "network": "10.1.2.0", "nexthopif": "Ethernet0/0", "nexthopip": "10.1.1.2", "protocol": "O", "type": "", "uptime": "00:06:00"}, {"distance": "", "mask": "/30", "metric": "", "network": "10.1.3.0", "nexthopif": "Ethernet0/1", "nexthopip": "", "protocol": "C", "type": "", "uptime": ""}, {"distance": "", "mask": "/32", "metric": "", "network": "10.1.3.1", "nexthopif": "Ethernet0/1", "nexthopip": "", "protocol": "L", "type": "", "uptime": ""}, {"distance": "110", "mask": "/30", "metric": "20", "network": "10.1.4.0", "nexthopif": "Ethernet0/1", "nexthopip": "10.1.3.2", "protocol": "O", "type": "", "uptime": "00:06:00"}, {"distance": "", "mask": "/24", "metric": "", "network": "172.17.1.0", "nexthopif": "Ethernet0/3", "nexthopip": "", "protocol": "C", "type": "", "uptime": ""}, {"distance": "", "mask": "/32", "metric": "", "network": "172.17.1.11", "nexthopif": "Ethernet0/3", "nexthopip": "", "protocol": "L", "type": "", "uptime": ""}], "response_list": []}}, "changed": false}
+ok: [r2] => {"ansible_facts": {"show_ip_route_output": {"changed": false, "response": [{"distance": "110", "mask": "/32", "metric": "11", "network": "1.1.1.1", "nexthopif": "Ethernet0/0", "nexthopip": "10.1.1.1", "protocol": "O", "type": "", "uptime": "00:05:59"}, {"distance": "", "mask": "/32", "metric": "", "network": "2.2.2.2", "nexthopif": "Loopback0", "nexthopip": "", "protocol": "C", "type": "", "uptime": ""}, {"distance": "110", "mask": "/32", "metric": "21", "network": "3.3.3.3", "nexthopif": "Ethernet0/1", "nexthopip": "10.1.2.2", "protocol": "O", "type": "", "uptime": "00:05:49"}, {"distance": "110", "mask": "/32", "metric": "21", "network": "3.3.3.3", "nexthopif": "", "nexthopip": "10.1.1.1", "protocol": "O", "type": "", "uptime": ""}, {"distance": "110", "mask": "/32", "metric": "11", "network": "4.4.4.4", "nexthopif": "Ethernet0/1", "nexthopip": "10.1.2.2", "protocol": "O", "type": "", "uptime": "00:05:59"}, {"distance": "", "mask": "/30", "metric": "", "network": "10.1.1.0", "nexthopif": "Ethernet0/0", "nexthopip": "", "protocol": "C", "type": "", "uptime": ""}, {"distance": "", "mask": "/32", "metric": "", "network": "10.1.1.2", "nexthopif": "Ethernet0/0", "nexthopip": "", "protocol": "L", "type": "", "uptime": ""}, {"distance": "", "mask": "/30", "metric": "", "network": "10.1.2.0", "nexthopif": "Ethernet0/1", "nexthopip": "", "protocol": "C", "type": "", "uptime": ""}, {"distance": "", "mask": "/32", "metric": "", "network": "10.1.2.1", "nexthopif": "Ethernet0/1", "nexthopip": "", "protocol": "L", "type": "", "uptime": ""}, {"distance": "110", "mask": "/30", "metric": "20", "network": "10.1.3.0", "nexthopif": "Ethernet0/0", "nexthopip": "10.1.1.1", "protocol": "O", "type": "", "uptime": "00:05:59"}, {"distance": "110", "mask": "/30", "metric": "20", "network": "10.1.4.0", "nexthopif": "Ethernet0/1", "nexthopip": "10.1.2.2", "protocol": "O", "type": "", "uptime": "00:05:59"}, {"distance": "", "mask": "/24", "metric": "", "network": "172.17.1.0", "nexthopif": "Ethernet0/3", "nexthopip": "", "protocol": "C", "type": "", "uptime": ""}, {"distance": "", "mask": "/32", "metric": "", "network": "172.17.1.12", "nexthopif": "Ethernet0/3", "nexthopip": "", "protocol": "L", "type": "", "uptime": ""}], "response_list": []}}, "changed": false}
+ok: [r4] => {"ansible_facts": {"show_ip_route_output": {"changed": false, "response": [{"distance": "110", "mask": "/32", "metric": "21", "network": "1.1.1.1", "nexthopif": "Ethernet0/1", "nexthopip": "10.1.4.1", "protocol": "O", "type": "", "uptime": "00:06:00"}, {"distance": "110", "mask": "/32", "metric": "21", "network": "1.1.1.1", "nexthopif": "", "nexthopip": "10.1.2.1", "protocol": "O", "type": "", "uptime": ""}, {"distance": "110", "mask": "/32", "metric": "11", "network": "2.2.2.2", "nexthopif": "Ethernet0/0", "nexthopip": "10.1.2.1", "protocol": "O", "type": "", "uptime": "00:06:00"}, {"distance": "110", "mask": "/32", "metric": "11", "network": "3.3.3.3", "nexthopif": "Ethernet0/1", "nexthopip": "10.1.4.1", "protocol": "O", "type": "", "uptime": "00:06:00"}, {"distance": "", "mask": "/32", "metric": "", "network": "4.4.4.4", "nexthopif": "Loopback0", "nexthopip": "", "protocol": "C", "type": "", "uptime": ""}, {"distance": "110", "mask": "/30", "metric": "20", "network": "10.1.1.0", "nexthopif": "Ethernet0/0", "nexthopip": "10.1.2.1", "protocol": "O", "type": "", "uptime": "00:06:00"}, {"distance": "", "mask": "/30", "metric": "", "network": "10.1.2.0", "nexthopif": "Ethernet0/0", "nexthopip": "", "protocol": "C", "type": "", "uptime": ""}, {"distance": "", "mask": "/32", "metric": "", "network": "10.1.2.2", "nexthopif": "Ethernet0/0", "nexthopip": "", "protocol": "L", "type": "", "uptime": ""}, {"distance": "110", "mask": "/30", "metric": "20", "network": "10.1.3.0", "nexthopif": "Ethernet0/1", "nexthopip": "10.1.4.1", "protocol": "O", "type": "", "uptime": "00:06:00"}, {"distance": "", "mask": "/30", "metric": "", "network": "10.1.4.0", "nexthopif": "Ethernet0/1", "nexthopip": "", "protocol": "C", "type": "", "uptime": ""}, {"distance": "", "mask": "/32", "metric": "", "network": "10.1.4.2", "nexthopif": "Ethernet0/1", "nexthopip": "", "protocol": "L", "type": "", "uptime": ""}, {"distance": "", "mask": "/24", "metric": "", "network": "172.17.1.0", "nexthopif": "Ethernet0/3", "nexthopip": "", "protocol": "C", "type": "", "uptime": ""}, {"distance": "", "mask": "/32", "metric": "", "network": "172.17.1.14", "nexthopif": "Ethernet0/3", "nexthopip": "", "protocol": "L", "type": "", "uptime": ""}], "response_list": []}}, "changed": false}
+ok: [r3] => {"ansible_facts": {"show_ip_route_output": {"changed": false, "response": [{"distance": "110", "mask": "/32", "metric": "11", "network": "1.1.1.1", "nexthopif": "Ethernet0/0", "nexthopip": "10.1.3.1", "protocol": "O", "type": "", "uptime": "00:06:00"}, {"distance": "110", "mask": "/32", "metric": "21", "network": "2.2.2.2", "nexthopif": "Ethernet0/1", "nexthopip": "10.1.4.2", "protocol": "O", "type": "", "uptime": "00:06:00"}, {"distance": "110", "mask": "/32", "metric": "21", "network": "2.2.2.2", "nexthopif": "", "nexthopip": "10.1.3.1", "protocol": "O", "type": "", "uptime": ""}, {"distance": "", "mask": "/32", "metric": "", "network": "3.3.3.3", "nexthopif": "Loopback0", "nexthopip": "", "protocol": "C", "type": "", "uptime": ""}, {"distance": "110", "mask": "/32", "metric": "11", "network": "4.4.4.4", "nexthopif": "Ethernet0/1", "nexthopip": "10.1.4.2", "protocol": "O", "type": "", "uptime": "00:06:00"}, {"distance": "110", "mask": "/30", "metric": "20", "network": "10.1.1.0", "nexthopif": "Ethernet0/0", "nexthopip": "10.1.3.1", "protocol": "O", "type": "", "uptime": "00:06:00"}, {"distance": "110", "mask": "/30", "metric": "20", "network": "10.1.2.0", "nexthopif": "Ethernet0/1", "nexthopip": "10.1.4.2", "protocol": "O", "type": "", "uptime": "00:06:00"}, {"distance": "", "mask": "/30", "metric": "", "network": "10.1.3.0", "nexthopif": "Ethernet0/0", "nexthopip": "", "protocol": "C", "type": "", "uptime": ""}, {"distance": "", "mask": "/32", "metric": "", "network": "10.1.3.2", "nexthopif": "Ethernet0/0", "nexthopip": "", "protocol": "L", "type": "", "uptime": ""}, {"distance": "", "mask": "/30", "metric": "", "network": "10.1.4.0", "nexthopif": "Ethernet0/1", "nexthopip": "", "protocol": "C", "type": "", "uptime": ""}, {"distance": "", "mask": "/32", "metric": "", "network": "10.1.4.1", "nexthopif": "Ethernet0/1", "nexthopip": "", "protocol": "L", "type": "", "uptime": ""}, {"distance": "", "mask": "/24", "metric": "", "network": "172.17.1.0", "nexthopif": "Ethernet0/3", "nexthopip": "", "protocol": "C", "type": "", "uptime": ""}, {"distance": "", "mask": "/32", "metric": "", "network": "172.17.1.13", "nexthopif": "Ethernet0/3", "nexthopip": "", "protocol": "L", "type": "", "uptime": ""}], "response_list": []}}, "changed": false}
+ ______________
+< TASK [debug] >
+ --------------
+        \   ^__^
+         \  (oo)\_______
+            (__)\       )\/\
+                ||----w |
+                ||     ||
+
+ok: [r1] => {
+    "show_ip_route_output.response": [
+        {
+            "distance": "", 
+            "mask": "/32", 
+            "metric": "", 
+            "network": "1.1.1.1", 
+            "nexthopif": "Loopback0", 
+            "nexthopip": "", 
+            "protocol": "C", 
+            "type": "", 
+            "uptime": ""
+        }, 
+        {
+            "distance": "110", 
+            "mask": "/32", 
+            "metric": "11", 
+            "network": "2.2.2.2", 
+            "nexthopif": "Ethernet0/0", 
+            "nexthopip": "10.1.1.2", 
+            "protocol": "O", 
+            "type": "", 
+            "uptime": "00:06:00"
+        }, 
+        {
+            "distance": "110", 
+            "mask": "/32", 
+            "metric": "11", 
+            "network": "3.3.3.3", 
+            "nexthopif": "Ethernet0/1", 
+            "nexthopip": "10.1.3.2", 
+            "protocol": "O", 
+            "type": "", 
+            "uptime": "00:06:00"
+        }, 
+        {
+            "distance": "110", 
+            "mask": "/32", 
+            "metric": "21", 
+            "network": "4.4.4.4", 
+            "nexthopif": "Ethernet0/1", 
+            "nexthopip": "10.1.3.2", 
+            "protocol": "O", 
+            "type": "", 
+            "uptime": "00:05:50"
+        }, 
+        {
+            "distance": "110", 
+            "mask": "/32", 
+            "metric": "21", 
+            "network": "4.4.4.4", 
+            "nexthopif": "", 
+            "nexthopip": "10.1.1.2", 
+            "protocol": "O", 
+            "type": "", 
+            "uptime": ""
+        }, 
+        {
+            "distance": "", 
+            "mask": "/30", 
+            "metric": "", 
+            "network": "10.1.1.0", 
+            "nexthopif": "Ethernet0/0", 
+            "nexthopip": "", 
+            "protocol": "C", 
+            "type": "", 
+            "uptime": ""
+        }, 
+        {
+            "distance": "", 
+            "mask": "/32", 
+            "metric": "", 
+            "network": "10.1.1.1", 
+            "nexthopif": "Ethernet0/0", 
+            "nexthopip": "", 
+            "protocol": "L", 
+            "type": "", 
+            "uptime": ""
+        }, 
+        {
+            "distance": "110", 
+            "mask": "/30", 
+            "metric": "20", 
+            "network": "10.1.2.0", 
+            "nexthopif": "Ethernet0/0", 
+            "nexthopip": "10.1.1.2", 
+            "protocol": "O", 
+            "type": "", 
+            "uptime": "00:06:00"
+        }, 
+        {
+            "distance": "", 
+            "mask": "/30", 
+            "metric": "", 
+            "network": "10.1.3.0", 
+            "nexthopif": "Ethernet0/1", 
+            "nexthopip": "", 
+            "protocol": "C", 
+            "type": "", 
+            "uptime": ""
+        }, 
+        {
+            "distance": "", 
+            "mask": "/32", 
+            "metric": "", 
+            "network": "10.1.3.1", 
+            "nexthopif": "Ethernet0/1", 
+            "nexthopip": "", 
+            "protocol": "L", 
+            "type": "", 
+            "uptime": ""
+        }, 
+        {
+            "distance": "110", 
+            "mask": "/30", 
+            "metric": "20", 
+            "network": "10.1.4.0", 
+            "nexthopif": "Ethernet0/1", 
+            "nexthopip": "10.1.3.2", 
+            "protocol": "O", 
+            "type": "", 
+            "uptime": "00:06:00"
+        }, 
+        {
+            "distance": "", 
+            "mask": "/24", 
+            "metric": "", 
+            "network": "172.17.1.0", 
+            "nexthopif": "Ethernet0/3", 
+            "nexthopip": "", 
+            "protocol": "C", 
+            "type": "", 
+            "uptime": ""
+        }, 
+        {
+            "distance": "", 
+            "mask": "/32", 
+            "metric": "", 
+            "network": "172.17.1.11", 
+            "nexthopif": "Ethernet0/3", 
+            "nexthopip": "", 
+            "protocol": "L", 
+            "type": "", 
+            "uptime": ""
+        }
+    ]
+}
+ok: [r3] => {
+    "show_ip_route_output.response": [
+        {
+            "distance": "110", 
+            "mask": "/32", 
+            "metric": "11", 
+            "network": "1.1.1.1", 
+            "nexthopif": "Ethernet0/0", 
+            "nexthopip": "10.1.3.1", 
+            "protocol": "O", 
+            "type": "", 
+            "uptime": "00:06:00"
+        }, 
+        {
+            "distance": "110", 
+            "mask": "/32", 
+            "metric": "21", 
+            "network": "2.2.2.2", 
+            "nexthopif": "Ethernet0/1", 
+            "nexthopip": "10.1.4.2", 
+            "protocol": "O", 
+            "type": "", 
+            "uptime": "00:06:00"
+        }, 
+        {
+            "distance": "110", 
+            "mask": "/32", 
+            "metric": "21", 
+            "network": "2.2.2.2", 
+            "nexthopif": "", 
+            "nexthopip": "10.1.3.1", 
+            "protocol": "O", 
+            "type": "", 
+            "uptime": ""
+        }, 
+        {
+            "distance": "", 
+            "mask": "/32", 
+            "metric": "", 
+            "network": "3.3.3.3", 
+            "nexthopif": "Loopback0", 
+            "nexthopip": "", 
+            "protocol": "C", 
+            "type": "", 
+            "uptime": ""
+        }, 
+        {
+            "distance": "110", 
+            "mask": "/32", 
+            "metric": "11", 
+            "network": "4.4.4.4", 
+            "nexthopif": "Ethernet0/1", 
+            "nexthopip": "10.1.4.2", 
+            "protocol": "O", 
+            "type": "", 
+            "uptime": "00:06:00"
+        }, 
+        {
+            "distance": "110", 
+            "mask": "/30", 
+            "metric": "20", 
+            "network": "10.1.1.0", 
+            "nexthopif": "Ethernet0/0", 
+            "nexthopip": "10.1.3.1", 
+            "protocol": "O", 
+            "type": "", 
+            "uptime": "00:06:00"
+        }, 
+        {
+            "distance": "110", 
+            "mask": "/30", 
+            "metric": "20", 
+            "network": "10.1.2.0", 
+            "nexthopif": "Ethernet0/1", 
+            "nexthopip": "10.1.4.2", 
+            "protocol": "O", 
+            "type": "", 
+            "uptime": "00:06:00"
+        }, 
+        {
+            "distance": "", 
+            "mask": "/30", 
+            "metric": "", 
+            "network": "10.1.3.0", 
+            "nexthopif": "Ethernet0/0", 
+            "nexthopip": "", 
+            "protocol": "C", 
+            "type": "", 
+            "uptime": ""
+        }, 
+        {
+            "distance": "", 
+            "mask": "/32", 
+            "metric": "", 
+            "network": "10.1.3.2", 
+            "nexthopif": "Ethernet0/0", 
+            "nexthopip": "", 
+            "protocol": "L", 
+            "type": "", 
+            "uptime": ""
+        }, 
+        {
+            "distance": "", 
+            "mask": "/30", 
+            "metric": "", 
+            "network": "10.1.4.0", 
+            "nexthopif": "Ethernet0/1", 
+            "nexthopip": "", 
+            "protocol": "C", 
+            "type": "", 
+            "uptime": ""
+        }, 
+        {
+            "distance": "", 
+            "mask": "/32", 
+            "metric": "", 
+            "network": "10.1.4.1", 
+            "nexthopif": "Ethernet0/1", 
+            "nexthopip": "", 
+            "protocol": "L", 
+            "type": "", 
+            "uptime": ""
+        }, 
+        {
+            "distance": "", 
+            "mask": "/24", 
+            "metric": "", 
+            "network": "172.17.1.0", 
+            "nexthopif": "Ethernet0/3", 
+            "nexthopip": "", 
+            "protocol": "C", 
+            "type": "", 
+            "uptime": ""
+        }, 
+        {
+            "distance": "", 
+            "mask": "/32", 
+            "metric": "", 
+            "network": "172.17.1.13", 
+            "nexthopif": "Ethernet0/3", 
+            "nexthopip": "", 
+            "protocol": "L", 
+            "type": "", 
+            "uptime": ""
+        }
+    ]
+}
+ok: [r2] => {
+    "show_ip_route_output.response": [
+        {
+            "distance": "110", 
+            "mask": "/32", 
+            "metric": "11", 
+            "network": "1.1.1.1", 
+            "nexthopif": "Ethernet0/0", 
+            "nexthopip": "10.1.1.1", 
+            "protocol": "O", 
+            "type": "", 
+            "uptime": "00:05:59"
+        }, 
+        {
+            "distance": "", 
+            "mask": "/32", 
+            "metric": "", 
+            "network": "2.2.2.2", 
+            "nexthopif": "Loopback0", 
+            "nexthopip": "", 
+            "protocol": "C", 
+            "type": "", 
+            "uptime": ""
+        }, 
+        {
+            "distance": "110", 
+            "mask": "/32", 
+            "metric": "21", 
+            "network": "3.3.3.3", 
+            "nexthopif": "Ethernet0/1", 
+            "nexthopip": "10.1.2.2", 
+            "protocol": "O", 
+            "type": "", 
+            "uptime": "00:05:49"
+        }, 
+        {
+            "distance": "110", 
+            "mask": "/32", 
+            "metric": "21", 
+            "network": "3.3.3.3", 
+            "nexthopif": "", 
+            "nexthopip": "10.1.1.1", 
+            "protocol": "O", 
+            "type": "", 
+            "uptime": ""
+        }, 
+        {
+            "distance": "110", 
+            "mask": "/32", 
+            "metric": "11", 
+            "network": "4.4.4.4", 
+            "nexthopif": "Ethernet0/1", 
+            "nexthopip": "10.1.2.2", 
+            "protocol": "O", 
+            "type": "", 
+            "uptime": "00:05:59"
+        }, 
+        {
+            "distance": "", 
+            "mask": "/30", 
+            "metric": "", 
+            "network": "10.1.1.0", 
+            "nexthopif": "Ethernet0/0", 
+            "nexthopip": "", 
+            "protocol": "C", 
+            "type": "", 
+            "uptime": ""
+        }, 
+        {
+            "distance": "", 
+            "mask": "/32", 
+            "metric": "", 
+            "network": "10.1.1.2", 
+            "nexthopif": "Ethernet0/0", 
+            "nexthopip": "", 
+            "protocol": "L", 
+            "type": "", 
+            "uptime": ""
+        }, 
+        {
+            "distance": "", 
+            "mask": "/30", 
+            "metric": "", 
+            "network": "10.1.2.0", 
+            "nexthopif": "Ethernet0/1", 
+            "nexthopip": "", 
+            "protocol": "C", 
+            "type": "", 
+            "uptime": ""
+        }, 
+        {
+            "distance": "", 
+            "mask": "/32", 
+            "metric": "", 
+            "network": "10.1.2.1", 
+            "nexthopif": "Ethernet0/1", 
+            "nexthopip": "", 
+            "protocol": "L", 
+            "type": "", 
+            "uptime": ""
+        }, 
+        {
+            "distance": "110", 
+            "mask": "/30", 
+            "metric": "20", 
+            "network": "10.1.3.0", 
+            "nexthopif": "Ethernet0/0", 
+            "nexthopip": "10.1.1.1", 
+            "protocol": "O", 
+            "type": "", 
+            "uptime": "00:05:59"
+        }, 
+        {
+            "distance": "110", 
+            "mask": "/30", 
+            "metric": "20", 
+            "network": "10.1.4.0", 
+            "nexthopif": "Ethernet0/1", 
+            "nexthopip": "10.1.2.2", 
+            "protocol": "O", 
+            "type": "", 
+            "uptime": "00:05:59"
+        }, 
+        {
+            "distance": "", 
+            "mask": "/24", 
+            "metric": "", 
+            "network": "172.17.1.0", 
+            "nexthopif": "Ethernet0/3", 
+            "nexthopip": "", 
+            "protocol": "C", 
+            "type": "", 
+            "uptime": ""
+        }, 
+        {
+            "distance": "", 
+            "mask": "/32", 
+            "metric": "", 
+            "network": "172.17.1.12", 
+            "nexthopif": "Ethernet0/3", 
+            "nexthopip": "", 
+            "protocol": "L", 
+            "type": "", 
+            "uptime": ""
+        }
+    ]
+}
+ok: [r4] => {
+    "show_ip_route_output.response": [
+        {
+            "distance": "110", 
+            "mask": "/32", 
+            "metric": "21", 
+            "network": "1.1.1.1", 
+            "nexthopif": "Ethernet0/1", 
+            "nexthopip": "10.1.4.1", 
+            "protocol": "O", 
+            "type": "", 
+            "uptime": "00:06:00"
+        }, 
+        {
+            "distance": "110", 
+            "mask": "/32", 
+            "metric": "21", 
+            "network": "1.1.1.1", 
+            "nexthopif": "", 
+            "nexthopip": "10.1.2.1", 
+            "protocol": "O", 
+            "type": "", 
+            "uptime": ""
+        }, 
+        {
+            "distance": "110", 
+            "mask": "/32", 
+            "metric": "11", 
+            "network": "2.2.2.2", 
+            "nexthopif": "Ethernet0/0", 
+            "nexthopip": "10.1.2.1", 
+            "protocol": "O", 
+            "type": "", 
+            "uptime": "00:06:00"
+        }, 
+        {
+            "distance": "110", 
+            "mask": "/32", 
+            "metric": "11", 
+            "network": "3.3.3.3", 
+            "nexthopif": "Ethernet0/1", 
+            "nexthopip": "10.1.4.1", 
+            "protocol": "O", 
+            "type": "", 
+            "uptime": "00:06:00"
+        }, 
+        {
+            "distance": "", 
+            "mask": "/32", 
+            "metric": "", 
+            "network": "4.4.4.4", 
+            "nexthopif": "Loopback0", 
+            "nexthopip": "", 
+            "protocol": "C", 
+            "type": "", 
+            "uptime": ""
+        }, 
+        {
+            "distance": "110", 
+            "mask": "/30", 
+            "metric": "20", 
+            "network": "10.1.1.0", 
+            "nexthopif": "Ethernet0/0", 
+            "nexthopip": "10.1.2.1", 
+            "protocol": "O", 
+            "type": "", 
+            "uptime": "00:06:00"
+        }, 
+        {
+            "distance": "", 
+            "mask": "/30", 
+            "metric": "", 
+            "network": "10.1.2.0", 
+            "nexthopif": "Ethernet0/0", 
+            "nexthopip": "", 
+            "protocol": "C", 
+            "type": "", 
+            "uptime": ""
+        }, 
+        {
+            "distance": "", 
+            "mask": "/32", 
+            "metric": "", 
+            "network": "10.1.2.2", 
+            "nexthopif": "Ethernet0/0", 
+            "nexthopip": "", 
+            "protocol": "L", 
+            "type": "", 
+            "uptime": ""
+        }, 
+        {
+            "distance": "110", 
+            "mask": "/30", 
+            "metric": "20", 
+            "network": "10.1.3.0", 
+            "nexthopif": "Ethernet0/1", 
+            "nexthopip": "10.1.4.1", 
+            "protocol": "O", 
+            "type": "", 
+            "uptime": "00:06:00"
+        }, 
+        {
+            "distance": "", 
+            "mask": "/30", 
+            "metric": "", 
+            "network": "10.1.4.0", 
+            "nexthopif": "Ethernet0/1", 
+            "nexthopip": "", 
+            "protocol": "C", 
+            "type": "", 
+            "uptime": ""
+        }, 
+        {
+            "distance": "", 
+            "mask": "/32", 
+            "metric": "", 
+            "network": "10.1.4.2", 
+            "nexthopif": "Ethernet0/1", 
+            "nexthopip": "", 
+            "protocol": "L", 
+            "type": "", 
+            "uptime": ""
+        }, 
+        {
+            "distance": "", 
+            "mask": "/24", 
+            "metric": "", 
+            "network": "172.17.1.0", 
+            "nexthopif": "Ethernet0/3", 
+            "nexthopip": "", 
+            "protocol": "C", 
+            "type": "", 
+            "uptime": ""
+        }, 
+        {
+            "distance": "", 
+            "mask": "/32", 
+            "metric": "", 
+            "network": "172.17.1.14", 
+            "nexthopif": "Ethernet0/3", 
+            "nexthopip": "", 
+            "protocol": "L", 
+            "type": "", 
+            "uptime": ""
+        }
+    ]
+}
+ _____________
+< TASK [copy] >
+ -------------
+        \   ^__^
+         \  (oo)\_______
+            (__)\       )\/\
+                ||----w |
+                ||     ||
+
+changed: [r3] => {"changed": true, "checksum": "e9e3ca554c184c95a36f28637d8ae7f0635a4041", "dest": "./show_outputs/r3.show.ip.route.output.txt", "gid": 1000, "group": "ansible", "md5sum": "1c77d527eacfc251bb73b130f5fded73", "mode": "0664", "owner": "ansible", "size": 2159, "src": "/home/ansible/.ansible/tmp/ansible-tmp-1484715186.34-59317195962468/source", "state": "file", "uid": 1000}
+changed: [r1] => {"changed": true, "checksum": "03ea3f405e7f57c7b7409b15ac9fd01c9d7d8a0a", "dest": "./show_outputs/r1.show.ip.route.output.txt", "gid": 1000, "group": "ansible", "md5sum": "f02de87de8883e45aa644a15eb2d4f52", "mode": "0664", "owner": "ansible", "size": 2159, "src": "/home/ansible/.ansible/tmp/ansible-tmp-1484715186.34-95699400068213/source", "state": "file", "uid": 1000}
+changed: [r4] => {"changed": true, "checksum": "06d77362e3ad419f78826e5c1b3e7b0c1858404a", "dest": "./show_outputs/r4.show.ip.route.output.txt", "gid": 1000, "group": "ansible", "md5sum": "ff050b3520f727ce28ee90c7130a9f5b", "mode": "0664", "owner": "ansible", "size": 2159, "src": "/home/ansible/.ansible/tmp/ansible-tmp-1484715186.35-94369831711058/source", "state": "file", "uid": 1000}
+changed: [r2] => {"changed": true, "checksum": "a448e27179cfc267190b25d57bd593b64fb14cf5", "dest": "./show_outputs/r2.show.ip.route.output.txt", "gid": 1000, "group": "ansible", "md5sum": "66dbe790f567eeca1cda9df0a9ce3c17", "mode": "0664", "owner": "ansible", "size": 2159, "src": "/home/ansible/.ansible/tmp/ansible-tmp-1484715186.37-96401478716969/source", "state": "file", "uid": 1000}
+ ____________
+< PLAY RECAP >
+ ------------
+        \   ^__^
+         \  (oo)\_______
+            (__)\       )\/\
+                ||----w |
+                ||     ||
+
+r1                         : ok=12   changed=3    unreachable=0    failed=0   
+r2                         : ok=12   changed=3    unreachable=0    failed=0   
+r3                         : ok=12   changed=3    unreachable=0    failed=0   
+r4                         : ok=12   changed=3    unreachable=0    failed=0   
+
+ansible@unl01:~/automated-testlab$ 

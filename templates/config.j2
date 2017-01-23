@@ -1,0 +1,23 @@
+ip routing
+
+{% for i in ip_addresses %}
+interface {{ i.interface }}
+
+{% if i.encapsulation is defined %}
+ encapsulation dot1Q {{ i.encapsulation }}
+{% endif %}
+
+ ip address {{ i.ip_address }} {{ i.ip_mask }}
+{% if i.description is defined %}
+ description {{ i.description }}
+{% endif %}
+
+{% if i.standby_ip is defined %}
+ standby {{ i.standby_grp }} ip {{ i.standby_ip }}
+{% endif %}
+
+{% if i.standby_pri is defined %}
+ standby {{ i.standby_grp }} priority {{ i.standby_pri }}
+{% endif %}
+
+{% endfor %}

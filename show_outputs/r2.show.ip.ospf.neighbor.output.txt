@@ -1,0 +1,1 @@
+[{"dead_time": "00:00:35", "priority": "1", "state": "FULL/BDR", "address": "10.1.2.2", "interface": "Ethernet0/1", "neighbor_id": "88.88.88.88"}, {"dead_time": "00:00:37", "priority": "1", "state": "FULL/BDR", "address": "10.1.1.1", "interface": "Ethernet0/0", "neighbor_id": "1.1.1.1"}]

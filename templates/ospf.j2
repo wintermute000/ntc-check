@@ -1,0 +1,11 @@
+{% if ospf_process is defined %}
+router ospf {{ ospf_process }}
+{% for n in ospf_networks %}
+  network {{ n.network }} {{ n.reverse_mask }} area {{ n.area }}
+{% endfor %}
+
+{% endif %}
+
+
+
+
