@@ -61,7 +61,7 @@ Before using:
 	- dictionaries will be written to the path specific in the reports_path variable
 	- comparison is LITERAL - use sanitise_parameters (see below) to exclude key-value pairs that don't make sense e.g. OSPF dead time or route age
 	
-#SHOW TO USE FOR SHOW IP ROUTE
+#HOW TO USE FOR SHOW IP ROUTE
 Due to the need to handle ECMP and to merge the network/mask key-pairs into one key/value pair, use different methods for show ip route.
 - Same first steps up to and including generating host list
 - call method ntc_check.generate_routes_list("correct") to generate dictionary of correct routes (gathered from YAML files).
@@ -91,13 +91,13 @@ Due to the need to handle ECMP and to merge the network/mask key-pairs into one 
 
 #EXAMPLE: HOW TO USE
 ```
-## example generic variables
+#Generic variables
 correct_path = "./correct_outputs"
 output_path = "./show_outputs"
 host_file = "hosts.yml"
 report_path = "./reports"
 
-### EXAMPLE check show ip interface brief
+#check show ip interface brief
 
 correct_interfaces_filename = "interfaces.yml"
 output__interfaces_filename = "show.ip.interface.brief.output.txt"
@@ -109,7 +109,7 @@ job_interfaces.generate_show_list("correct")
 job_interfaces.generate_show_list("output")
 job_interfaces.compare_generic()
 
-### EXAMPLE check OSPF neighbors - exclude ["dead_time"]
+#check OSPF neighbors - exclude ["dead_time"]
 correct_ospf_nei_filename = "ospf.neighbors.yml"
 output_ospf_nei_filename = "show.ip.ospf.neighbor.output.txt"
 comparison_ospf_nei = "neighbor_id"
@@ -122,7 +122,7 @@ job_ospf_nei.generate_show_list("correct")
 job_ospf_nei.generate_show_list("output")
 job_ospf_nei.compare_generic()
 
-### example check routes - ["metric", "uptime", "nexthopif"], call specific route parsing show
+#check routes - ["metric", "uptime", "nexthopif"], call specific route parsing show
 correct_routes_filename = "routes.yml"
 output_routes_filename = "show.ip.route.output.txt"
 comparison_routes = 'network'
