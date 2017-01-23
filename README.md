@@ -10,18 +10,18 @@ e.g. example ansible task to get 'show ip ospf neighbor' on Cisco IOS device
     ntc_show_command:
       connection: ssh
       command: 'show ip ospf neighbor'
-      template_dir: "/usr/share/ansible/ntc-ansible/ntc-templates/templates"
-      platform: "{{ platform }}"
-      host: "{{ inventory_hostname }}"
-      username: "{{ username }}"
-      password: "{{ password }}"
+      template_dir: '/usr/share/ansible/ntc-ansible/ntc-templates/templates'
+      platform: '{{ platform }}'
+      host: '{{ inventory_hostname }}'
+      username: '{{ username }}'
+      password: '{{ password }}'
     register: show_ip_ospf_neighbor_output
 
   - set_fact: show_ip_ospf_neighbor_output={{ show_ip_ospf_neighbor_output}}
 
   - debug: var=show_ip_ospf_neighbor_output.response
 
-  - copy: content="{{ show_ip_ospf_neighbor_output.response }}" dest=./show_outputs/{{ inventory_hostname }}.show.ip.ospf.neighbor.output.txt
+  - copy: content='{{ show_ip_ospf_neighbor_output.response }}' dest=./show_outputs/{{ inventory_hostname }}.show.ip.ospf.neighbor.output.txt
 ```
   
 #DEPENDENCIES
@@ -32,17 +32,20 @@ e.g. example ansible task to get 'show ip ospf neighbor' on Cisco IOS device
 
 #CORRECT DEFINITIONS
 YAML files (sample is located in ./correct_outputs) will define the desired outputs to be matched against. The YAML format MUST be consistent with the JSON output produced by the ntc-ansible modules.
+
 Caveat: all numbers have to be defined as a string with quotes as per the example.
+
 Caveat: comparison is EXACT - e.g. will even pick up OSPF DR/BDR mismatches unless you specifically exclude - see below
+
 Caveat: show ip route has different methods owing to need to parse ECMP - see below
 
 #HOW TO USE
 Before using:
 - need YAML of hosts - YML list
-- need LIST of parameters to exclude from comparison - must use exact ntc-ansible returned JSON key e.g. comparing OSPF neighbors you probably don't want "dead_time"
-- for multiple parameters use a python list ["exclude-A","exclude-B"]
+- need LIST of parameters to exclude from comparison - must use exact ntc-ansible returned JSON key e.g. comparing OSPF neighbors you probably don't want 'dead_time'
+- for multiple parameters use a python list ['exclude-A','exclude-B']
 
-- use ntc-ansible in an ansible play to grab details and place in per-host text files somewhere. MUST use naming schema "<host>.<template_name>"
+- use ntc-ansible in an ansible play to grab details and place in per-host text files somewhere. MUST use naming schema '<host>.<template_name>'
 - instantiate the Class
 - generate the list of hosts - requires YML list of hosts
 - generate the list of correct JSON - call method generate_show_list(<path of correct YAML files> , <template_name>)
@@ -59,21 +62,21 @@ Use different methods
 #EXAMPLE: HOW TO USE
 ```
 ### example variables
-correct_path = "./correct_outputs"
-output_path = "./show_outputs"
-host_file = "hosts.yml"
-correct_interfaces_filename = "interfaces.yml"
-output__interfaces_filename = "show.ip.interface.brief.output.txt"
-comparison_interfaces = "intf"
+correct_path = './correct_outputs'
+output_path = './show_outputs'
+host_file = 'hosts.yml'
+correct_interfaces_filename = 'interfaces.yml'
+output__interfaces_filename = 'show.ip.interface.brief.output.txt'
+comparison_interfaces = 'intf'
 
-correct_ospf_nei_filename = "ospf.neighbors.yml"
-output_ospf_nei_filename = "show.ip.ospf.neighbor.output.txt"
-sanitise_ospf_nei_parameters = ["dead_time"]
-comparison_ospf_nei = "neighbor_id"
+correct_ospf_nei_filename = 'ospf.neighbors.yml'
+output_ospf_nei_filename = 'show.ip.ospf.neighbor.output.txt'
+sanitise_ospf_nei_parameters = ['dead_time']
+comparison_ospf_nei = 'neighbor_id'
 
-correct_routes_filename = "routes.yml"
-output_routes_filename = "show.ip.route.output.txt"
-sanitise_routes_parameters = ["metric", "uptime", "nexthopif"]
+correct_routes_filename = 'routes.yml'
+output_routes_filename = 'show.ip.route.output.txt'
+sanitise_routes_parameters = ['metric', 'uptime', 'nexthopif']
 
 ### example run
 job = ntc_check()
@@ -84,12 +87,12 @@ correct_interfaces = job.generate_show_list(correct_path, correct_interfaces_fil
 show_interfaces = job.generate_show_list(output_path, output__interfaces_filename )
 check_interfaces = job.compare_generic(hosts, correct_interfaces, show_interfaces, comparison_interfaces)
 
-### example check OSPF neighbors - exclude ["dead_time"]
+### example check OSPF neighbors - exclude ['dead_time']
 correct_ospf_nei = job.generate_show_list(correct_path, correct_ospf_nei_filename, )
 show_ospf_nei = job.generate_show_list(output_path, output_ospf_nei_filename, sanitise_ospf_nei_parameters )
 check_ospf_nei = job.compare_generic(hosts, correct_ospf_nei, show_ospf_nei, comparison_ospf_nei)
 
-### example check routes - ["metric", "uptime", "nexthopif"], call specific route parsing show
+### example check routes - ['metric', 'uptime', 'nexthopif'], call specific route parsing show
 correct_routes = job.generate_routes_list(correct_path, correct_routes_filename, )
 show_routes = job.generate_routes_list (output_path, output_routes_filename, sanitise_routes_parameters )
 check_routes = job.compare_routes(hosts, correct_routes, show_routes)
