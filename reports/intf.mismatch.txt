@@ -1,0 +1,1 @@
+{'r4': [], 'r1': [{'status': 'up', 'intf': 'Loopback0', 'ipaddr': '1.1.1.1', 'proto': 'up'}], 'r2': [], 'r3': []}

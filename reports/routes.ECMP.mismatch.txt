@@ -1,0 +1,1 @@
+{'r4': [], 'r1': [{'distance': '110', 'protocol': 'O', 'network': '88.88.88.88/32', 'nexthopip': '10.1.3.2', 'type': ''}, {'distance': '110', 'protocol': 'O', 'network': '88.88.88.88/32', 'nexthopip': '10.1.1.2', 'type': ''}], 'r2': [], 'r3': []}

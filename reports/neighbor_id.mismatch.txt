@@ -1,0 +1,1 @@
+{'r4': [{'priority': '1', 'interface': 'Ethernet0/0', 'state': 'FULL/DR', 'neighbor_id': '2.2.2.2', 'address': '10.1.2.1'}, {'priority': '1', 'interface': 'Ethernet0/1', 'state': 'FULL/DR', 'neighbor_id': '3.3.3.3', 'address': '10.1.4.1'}], 'r1': [], 'r2': [], 'r3': []}
