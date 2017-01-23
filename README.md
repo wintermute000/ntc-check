@@ -30,73 +30,111 @@ e.g. example ansible task to get 'show ip ospf neighbor' on Cisco IOS device
 - python 2.x including ntc-ansible dependencies
 
 
-#CORRECT DEFINITIONS
+#DEFINE CHECKS
 YAML files (sample is located in ./correct_outputs) will define the desired outputs to be matched against. The YAML format MUST be consistent with the JSON output produced by the ntc-ansible modules.
 
-Caveat: all numbers have to be defined as a string with quotes as per the example.
+Caveats: 
+- all numbers have to be defined as a string with quotes as per the example.
+- comparison is EXACT - e.g. will even pick up OSPF DR/BDR mismatches unless you specifically exclude - see below
+- show ip route needs different methods owing to need to parse ECMP - see below
 
-Caveat: comparison is EXACT - e.g. will even pick up OSPF DR/BDR mismatches unless you specifically exclude - see below
-
-Caveat: show ip route has different methods owing to need to parse ECMP - see below
-
-#HOW TO USE
+#PREREQUISITES
 Before using:
 - need YAML of hosts - YML list
 - need LIST of parameters to exclude from comparison - must use exact ntc-ansible returned JSON key e.g. comparing OSPF neighbors you probably don't want 'dead_time'
 - for multiple parameters use a python list ['exclude-A','exclude-B']
 
+#HOW TO USE
 - use ntc-ansible in an ansible play to grab details and place in per-host text files somewhere. MUST use naming schema 'host'.'template_name'
-- instantiate the Class
-- generate the list of hosts - requires YML list of hosts
-- generate the list of correct JSON - call method generate_show_list('path of correct YAML files' , 'template_name')
-- generate the list of ntc-ansible obtained JSON - call method generate_show_list('path of show output YAML files' , 'template_name', 'paramters_to_exclude')
-- run the comparison - call method compare_generic('hosts', 'correct list', 'show list', 'exact key to compare e.g. 'neighbor_id'')
-
-#FOR SHOW IP ROUTE:
-Use different methods
-- generate the list of correct JSON - call method generate_routes_list('path of correct YAML files' , 'template_name')
-- generate the list of ntc-ansible obtained JSON - call method generate_routes_list('path of show output YAML files' , 'template_name', 'paramters_to_exclude')
-- run the comparison - call method compare_routes('hosts', 'correct list', 'show list', 'exact key to compare e.g. 'neighbor_id'')
-
+- instantiate the class defining common variables
+- call method ntc_check.generate_host_list() to generate list of hosts
+	- this will also instantiate a class attribute self.host_list
+- call method ntc_check.generate_show_list("correct") to generate dictionary of correct values (gathered from YAML files).
+	- this will also instantiate a class attribute self.correct_dict
+- call method ntc_check.generate_show_list("output") to generate dictionary of output values (gathered from ntc-ansible outputs)
+	- this will also instantiate a class attribute self.output_dict
+- call method ntc_check.compare_generic to compare the two dictionaries
+	- this will also instantiate the following class attributes (self explanatory):
+		- compare_correct_dict
+		- compare_mismatch_dict
+		- compare_notfound_dict
+	- dictionaries will be written to the path specific in the reports_path variable
+	- comparison is LITERAL - use sanitise_parameters (see below) to exclude key-value pairs that don't make sense e.g. OSPF dead time or route age
+	
+#SHOW TO USE FOR SHOW IP ROUTE
+Due to the need to handle ECMP and to merge the network/mask key-pairs into one key/value pair, use different methods for show ip route.
+- Same first steps up to and including generating host list
+- call method ntc_check.generate_routes_list("correct") to generate dictionary of correct routes (gathered from YAML files).
+	- this will also instantiate a class attribute self.correct_dict
+- call method ntc_check.generate_routes_list("output") to generate dictionary of output routes (gathered from ntc-ansible outputs)
+	- this will also instantiate a class attribute self.output_dict
+- call method ntc_check.compare_generic to compare the two dictionaries
+	- this will also instantiate the following class attributes (self explanatory):
+		- compare_correct_ECMP_dict
+		- compare_mismatch_ECMP_dict
+		- compare_correct_unique_dict
+		- compare_mismatch_unique_dict
+		- compare_notfound_unique_dict
+	- dictionaries will be written to the path specific in the reports_path variable
+	- comparison is LITERAL - use sanitise_parameters (see below) to exclude key-value pairs that don't make sense e.g. uptime
+	- WARNING: ECMP route parsing treats mismatch the same as not found and cannot distinguish the difference - need to fix (not easy!)
+	
+#VARIABLES
+- reports_path - path to place comparison reports
+- correct_path - path with YAML files defining the correct output
+- output_path - path where outputs of ntc_ansible are located
+- host_file - YAML list of hosts
+- correct_filename - naming convention for YAML files to grep, assumes device.format (e.g. ".show.ip.routes.output.txt")
+- output_filename - naming convention for ntc_ansible output files to grep, assumes device.format (e.g. ".show.ip.routes.output.txt")
+- compare - when calling ntc_check.compare_generic(), this is the key that is being compared e.g. to compare OSPF neighbors it would be "neighbor_id" - needs to match ntc_ansible JSON key EXACTLY
+- sanitise_parameters - LIST of keys to ignore when comparing - useful for things like dead_time etc. where the show command's output cannot possibly be predicted or matched
 
 #EXAMPLE: HOW TO USE
 ```
-### example variables
-correct_path = './correct_outputs'
-output_path = './show_outputs'
-host_file = 'hosts.yml'
-correct_interfaces_filename = 'interfaces.yml'
-output__interfaces_filename = 'show.ip.interface.brief.output.txt'
-comparison_interfaces = 'intf'
+## example generic variables
+correct_path = "./correct_outputs"
+output_path = "./show_outputs"
+host_file = "hosts.yml"
+report_path = "./reports"
 
-correct_ospf_nei_filename = 'ospf.neighbors.yml'
-output_ospf_nei_filename = 'show.ip.ospf.neighbor.output.txt'
-sanitise_ospf_nei_parameters = ['dead_time']
-comparison_ospf_nei = 'neighbor_id'
+### EXAMPLE check show ip interface brief
 
-correct_routes_filename = 'routes.yml'
-output_routes_filename = 'show.ip.route.output.txt'
-sanitise_routes_parameters = ['metric', 'uptime', 'nexthopif']
+correct_interfaces_filename = "interfaces.yml"
+output__interfaces_filename = "show.ip.interface.brief.output.txt"
+comparison_interfaces = "intf"
 
-### example run
-job = ntc_check()
-hosts = job.generate_host_list(correct_path,host_file)
+job_interfaces = ntc_check(report_path, correct_path,output_path,host_file,correct_interfaces_filename, output__interfaces_filename, comparison_interfaces)
+job_interfaces.generate_host_list()
+job_interfaces.generate_show_list("correct")
+job_interfaces.generate_show_list("output")
+job_interfaces.compare_generic()
 
-### example check interfaces
-correct_interfaces = job.generate_show_list(correct_path, correct_interfaces_filename )
-show_interfaces = job.generate_show_list(output_path, output__interfaces_filename )
-check_interfaces = job.compare_generic(hosts, correct_interfaces, show_interfaces, comparison_interfaces)
+### EXAMPLE check OSPF neighbors - exclude ["dead_time"]
+correct_ospf_nei_filename = "ospf.neighbors.yml"
+output_ospf_nei_filename = "show.ip.ospf.neighbor.output.txt"
+comparison_ospf_nei = "neighbor_id"
+sanitise_ospf_nei_parameters = ["dead_time"]
 
-### example check OSPF neighbors - exclude ['dead_time']
-correct_ospf_nei = job.generate_show_list(correct_path, correct_ospf_nei_filename, )
-show_ospf_nei = job.generate_show_list(output_path, output_ospf_nei_filename, sanitise_ospf_nei_parameters )
-check_ospf_nei = job.compare_generic(hosts, correct_ospf_nei, show_ospf_nei, comparison_ospf_nei)
 
-### example check routes - ['metric', 'uptime', 'nexthopif'], call specific route parsing show
-correct_routes = job.generate_routes_list(correct_path, correct_routes_filename, )
-show_routes = job.generate_routes_list (output_path, output_routes_filename, sanitise_routes_parameters )
-check_routes = job.compare_routes(hosts, correct_routes, show_routes)
-th the lack of the correct ECMP routes and an attribute mismatch will return the same MISMATCH error (so to find an attribute mismatch you will have to manually look into the output).
+job_ospf_nei = ntc_check(report_path, correct_path,output_path,host_file,correct_ospf_nei_filename, output_ospf_nei_filename, comparison_ospf_nei, sanitise_ospf_nei_parameters)
+job_ospf_nei.generate_host_list()
+job_ospf_nei.generate_show_list("correct")
+job_ospf_nei.generate_show_list("output")
+job_ospf_nei.compare_generic()
+
+### example check routes - ["metric", "uptime", "nexthopif"], call specific route parsing show
+correct_routes_filename = "routes.yml"
+output_routes_filename = "show.ip.route.output.txt"
+comparison_routes = 'network'
+sanitise_routes_parameters = ["metric", "uptime", "nexthopif"]
+
+###
+job_routes = ntc_check(report_path, correct_path,output_path,host_file,correct_routes_filename, output_routes_filename, comparison_routes, sanitise_routes_parameters)
+job_routes.generate_host_list()
+job_routes.generate_routes_list("correct")
+job_routes.generate_routes_list("output")
+job_routes.compare_routes()
+
  ```
 
 #EXAMPLE ANSIBLE COMPONENTS
@@ -118,4 +156,5 @@ This has the following consequences:
 
 #SAMPLE OUTPUT
 Included in directory
+
 

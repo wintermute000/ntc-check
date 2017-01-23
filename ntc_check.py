@@ -354,7 +354,7 @@ if __name__ == "__main__":
     host_file = "hosts.yml"
     report_path = "./reports"
 
-    ### REFERENCE: class variables - correct_path,output_path,host_file,correct_filename,output_filename,sanitise_parameters
+    ### REFERENCE: class variables - correct_path,output_path,host_file,correct_filename,output_filename,compare, sanitise_parameters)
     ### EXAMPLE check show ip interface brief
 
     correct_interfaces_filename = "interfaces.yml"
